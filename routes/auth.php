@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -18,29 +19,64 @@ Route::middleware('guest')->group(function () {
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 
+    // OTP Registration routes
+    Route::get('register/otp', function () {
+        return Inertia::render('auth/Register');
+    })->name('register.otp');
+
+    Route::post('register/otp', [OtpLoginController::class, 'sendOtp'])
+        ->name('register.otp.send');
+
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
 
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
     // OTP Login Routes
-    Route::get('login/otp', [OtpLoginController::class, 'show'])
-        ->name('login.otp');
+    Route::get('login/otp', function () {
+        return Inertia::render('auth/Login');
+    })->name('login.otp');
 
-    Route::post('login/otp/send', [OtpLoginController::class, 'sendOtp'])
+    Route::post('login/otp', [OtpLoginController::class, 'sendOtp'])
         ->name('login.otp.send');
 
     Route::post('login/otp/verify', [OtpLoginController::class, 'verifyOtp'])
         ->name('login.otp.verify');
 
-    // Social Login Routes
+    // Social Login Routes - Updated to match frontend expectations (including Apple)
+    Route::get('auth/{provider}', [SocialLoginController::class, 'redirectToProvider'])
+        ->name('social.redirect')
+        ->where('provider', 'google|github|facebook|apple');
+
+    Route::get('auth/{provider}/callback', [SocialLoginController::class, 'handleProviderCallback'])
+        ->name('social.callback')
+        ->where('provider', 'google|github|facebook|apple');
+
+    // Explicit named routes for each provider
+    Route::get('auth/google', function () {
+        return app(\App\Http\Controllers\Auth\SocialLoginController::class)->redirectToProvider('google');
+    })->name('auth.google');
+
+    Route::get('auth/facebook', function () {
+        return app(\App\Http\Controllers\Auth\SocialLoginController::class)->redirectToProvider('facebook');
+    })->name('auth.facebook');
+
+    Route::get('auth/github', function () {
+        return app(\App\Http\Controllers\Auth\SocialLoginController::class)->redirectToProvider('github');
+    })->name('auth.github');
+
+    Route::get('auth/apple', function () {
+        return app(\App\Http\Controllers\Auth\SocialLoginController::class)->redirectToProvider('apple');
+    })->name('auth.apple');
+
+    // Legacy social login routes for backward compatibility
     Route::get('login/{provider}', [SocialLoginController::class, 'redirectToProvider'])
         ->name('social.login')
-        ->where('provider', 'google|github|facebook');
+        ->where('provider', 'google|github|facebook|apple');
 
     Route::get('login/{provider}/callback', [SocialLoginController::class, 'handleProviderCallback'])
         ->name('social.callback')
-        ->where('provider', 'google|github|facebook');
+        ->where('provider', 'google|github|facebook|apple');
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');
