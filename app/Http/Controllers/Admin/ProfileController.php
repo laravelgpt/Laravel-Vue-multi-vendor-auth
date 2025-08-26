@@ -13,10 +13,19 @@ use Illuminate\Http\Request;
 //use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
 
 class ProfileController extends Controller
 {
     use AuthorizesRequests, ValidatesRequests;
+
+    /**
+     * Display the admin profile page.
+     */
+    public function edit()
+    {
+        return Inertia::render('Admin/Profile');
+    }
 
     /**
      * Update the user's profile information.

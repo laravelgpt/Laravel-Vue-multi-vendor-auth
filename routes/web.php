@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
+use App\Http\Controllers\ErrorController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -75,5 +76,22 @@ Route::prefix('settings')->name('settings.')->group(function () {
     Route::put('/password', [ProfileController::class, 'updatePassword'])->name('password.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+// Error Handling Routes
+Route::get('/403', [ErrorController::class, 'forbidden'])->name('errors.403');
+Route::get('/404', [ErrorController::class, 'notFound'])->name('errors.404');
+Route::get('/500', [ErrorController::class, 'internalServerError'])->name('errors.500');
+Route::get('/401', [ErrorController::class, 'unauthorized'])->name('errors.401');
+Route::get('/429', [ErrorController::class, 'tooManyRequests'])->name('errors.429');
+Route::get('/503', [ErrorController::class, 'maintenance'])->name('errors.503');
+Route::get('/maintenance', [ErrorController::class, 'maintenance'])->name('errors.maintenance');
+Route::get('/too-many-requests', [ErrorController::class, 'tooManyRequests'])->name('errors.429');
+Route::get('/unauthorized', [ErrorController::class, 'unauthorized'])->name('errors.401');
+Route::get('/bad-request', [ErrorController::class, 'badRequest'])->name('errors.400');
+Route::get('/method-not-allowed', [ErrorController::class, 'methodNotAllowed'])->name('errors.405');
+Route::get('/unprocessable-entity', [ErrorController::class, 'unprocessableEntity'])->name('errors.422');
+
+// Generic error route for other status codes
+Route::get('/error/{status}', [ErrorController::class, 'generic'])->name('errors.generic');
 
 require __DIR__.'/auth.php';

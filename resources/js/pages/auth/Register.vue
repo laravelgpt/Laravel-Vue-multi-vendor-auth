@@ -63,13 +63,13 @@ const switchToPassword = () => {
                 <div class="flex justify-center mb-4">
                     <div class="w-16 h-16 bg-gradient-to-br from-purple-600 via-navy-600 to-blue-600 rounded-2xl flex items-center justify-center shadow-2xl transform -rotate-3 hover:rotate-0 transition-transform duration-300">
                         <Shield class="w-10 h-10 text-white" />
-                    </div>
+                        </div>
                 </div>
                 <CardTitle class="text-3xl font-bold bg-gradient-to-r from-purple-600 via-navy-600 to-blue-600 bg-clip-text text-transparent">Create account</CardTitle>
                 <CardDescription class="text-slate-600 dark:text-slate-400 text-lg">
                     Choose your preferred registration method
-                </CardDescription>
-            </CardHeader>
+                        </CardDescription>
+                    </CardHeader>
 
             <CardContent class="space-y-6">
                 <!-- Tab Navigation -->
@@ -107,90 +107,90 @@ const switchToPassword = () => {
                             <Label for="name" class="text-slate-700 dark:text-slate-300 font-medium">Full Name</Label>
                             <div class="relative group">
                                 <User class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-purple-600 transition-colors" />
-                                <Input
-                                    id="name"
+                                        <Input
+                                            id="name"
                                     v-model="passwordForm.name"
-                                    type="text"
-                                    required
-                                    autofocus
-                                    autocomplete="name"
+                                            type="text"
+                                            required
+                                            autofocus
+                                            autocomplete="name"
                                     class="pl-12 pr-4 py-3 border-2 border-slate-300 dark:border-slate-600 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/20 dark:bg-slate-800 dark:text-white rounded-xl transition-all duration-300"
-                                    placeholder="Enter your full name"
-                                />
+                                            placeholder="Enter your full name"
+                                        />
                             </div>
                             <div v-if="passwordForm.errors.name" class="text-sm text-red-600 dark:text-red-400">
                                 {{ passwordForm.errors.name }}
-                            </div>
-                        </div>
+                                    </div>
+                                </div>
 
                         <div class="space-y-2">
                             <Label for="email" class="text-slate-700 dark:text-slate-300 font-medium">Email</Label>
                             <div class="relative group">
                                 <Mail class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-purple-600 transition-colors" />
-                                <Input
-                                    id="email"
+                                        <Input
+                                            id="email"
                                     v-model="passwordForm.email"
-                                    type="email"
-                                    required
+                                            type="email"
+                                            required
                                     autocomplete="username"
                                     class="pl-12 pr-4 py-3 border-2 border-slate-300 dark:border-slate-600 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/20 dark:bg-slate-800 dark:text-white rounded-xl transition-all duration-300"
-                                    placeholder="Enter your email"
-                                />
+                                            placeholder="Enter your email"
+                                        />
                             </div>
                             <div v-if="passwordForm.errors.email" class="text-sm text-red-600 dark:text-red-400">
                                 {{ passwordForm.errors.email }}
-                            </div>
-                        </div>
+                                    </div>
+                                </div>
 
                         <div class="space-y-2">
                             <Label for="password" class="text-slate-700 dark:text-slate-300 font-medium">Password</Label>
                             <div class="relative group">
                                 <Lock class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-purple-600 transition-colors" />
-                                <Input
-                                    id="password"
+                                        <Input
+                                            id="password"
                                     v-model="passwordForm.password"
-                                    :type="showPassword ? 'text' : 'password'"
-                                    required
-                                    autocomplete="new-password"
+                                            :type="showPassword ? 'text' : 'password'"
+                                            required
+                                            autocomplete="new-password"
                                     class="pl-12 pr-12 py-3 border-2 border-slate-300 dark:border-slate-600 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/20 dark:bg-slate-800 dark:text-white rounded-xl transition-all duration-300"
                                     placeholder="Create a password"
-                                />
-                                <button
-                                    type="button"
+                                        />
+                                        <button
+                                            type="button"
                                     @click="showPassword = !showPassword"
                                     class="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                                >
+                                        >
                                     <Eye v-if="!showPassword" class="w-5 h-5" />
                                     <EyeOff v-else class="w-5 h-5" />
-                                </button>
-                            </div>
+                                        </button>
+                                    </div>
                             <div v-if="passwordForm.errors.password" class="text-sm text-red-600 dark:text-red-400">
                                 {{ passwordForm.errors.password }}
                             </div>
-                        </div>
+                                </div>
 
                         <div class="space-y-2">
                             <Label for="password_confirmation" class="text-slate-700 dark:text-slate-300 font-medium">Confirm Password</Label>
                             <div class="relative group">
                                 <Check class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-purple-600 transition-colors" />
-                                <Input
-                                    id="password_confirmation"
+                                        <Input
+                                            id="password_confirmation"
                                     v-model="passwordForm.password_confirmation"
-                                    :type="showConfirmPassword ? 'text' : 'password'"
-                                    required
-                                    autocomplete="new-password"
+                                            :type="showConfirmPassword ? 'text' : 'password'"
+                                            required
+                                            autocomplete="new-password"
                                     class="pl-12 pr-12 py-3 border-2 border-slate-300 dark:border-slate-600 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/20 dark:bg-slate-800 dark:text-white rounded-xl transition-all duration-300"
-                                    placeholder="Confirm your password"
-                                />
-                                <button
-                                    type="button"
+                                            placeholder="Confirm your password"
+                                        />
+                                        <button
+                                            type="button"
                                     @click="showConfirmPassword = !showConfirmPassword"
                                     class="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                                >
+                                        >
                                     <Eye v-if="!showConfirmPassword" class="w-5 h-5" />
                                     <EyeOff v-else class="w-5 h-5" />
-                                </button>
-                            </div>
+                                        </button>
+                                    </div>
                             <div v-if="passwordForm.errors.password_confirmation" class="text-sm text-red-600 dark:text-red-400">
                                 {{ passwordForm.errors.password_confirmation }}
                             </div>
@@ -213,7 +213,7 @@ const switchToPassword = () => {
                                     Privacy Policy
                                 </TextLink>
                             </div>
-                        </div>
+                                </div>
 
                         <Button
                             type="submit"
@@ -225,7 +225,7 @@ const switchToPassword = () => {
                                 <span>Creating account...</span>
                             </div>
                             <span v-else>Create account</span>
-                        </Button>
+                                </Button>
                     </form>
                 </div>
 
@@ -355,17 +355,17 @@ const switchToPassword = () => {
                             <path fill="currentColor" d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
                         </svg>
                     </Link>
-                </div>
+                        </div>
 
-                <!-- Sign In Link -->
+                        <!-- Sign In Link -->
                 <div class="text-center">
                     <span class="text-sm text-slate-600 dark:text-slate-400">Already have an account? </span>
                     <TextLink href="/login" class="text-sm text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 font-medium">
-                        Sign in
-                    </TextLink>
-                </div>
-            </CardContent>
-        </Card>
+                                Sign in
+                            </TextLink>
+                        </div>
+                    </CardContent>
+                </Card>
     </div>
 </template>
 
