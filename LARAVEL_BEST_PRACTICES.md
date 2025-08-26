@@ -1,3 +1,4 @@
+
 # Laravel Best Practices Guide
 
 ## Overview
