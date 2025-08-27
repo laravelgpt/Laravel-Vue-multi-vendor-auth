@@ -125,7 +125,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 import { SearchX, MapPin, Search, X, Compass, Map, Navigation } from 'lucide-vue-next'
 
@@ -142,11 +142,7 @@ const props = defineProps<Props>()
 const showSearch = ref(false)
 const searchQuery = ref('')
 
-onMounted(() => {
-  // Use the errorId from props instead of generating a new one
-  console.log('Error ID:', props.errorId)
-  console.log('Timestamp:', props.timestamp)
-})
+
 
 const goBack = () => {
   if (window.history.length > 1) {

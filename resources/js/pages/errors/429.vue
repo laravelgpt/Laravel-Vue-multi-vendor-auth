@@ -115,7 +115,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
-import { Clock, Timer, AlertTriangle, RefreshCw, Hourglass, Zap, Activity } from 'lucide-vue-next'
+import { Clock, Timer, AlertTriangle, Hourglass } from 'lucide-vue-next'
 
 // Props from the controller
 interface Props {
@@ -128,7 +128,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const countdown = ref(60)
-const showDetails = ref(false)
+
 let countdownInterval: number | null = null
 
 onMounted(() => {

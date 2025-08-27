@@ -91,16 +91,16 @@
     <div class="absolute top-20 right-20 animate-float-delay">
       <Lock class="w-6 h-6 text-blue-400/50" />
     </div>
-    <div class="absolute bottom-20 left-20 animate-float-delay-2">
-      <EyeOff class="w-7 h-7 text-red-400/50" />
-    </div>
+         <div class="absolute bottom-20 left-20 animate-float-delay-2">
+       <Shield class="w-7 h-7 text-red-400/50" />
+     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
-import { ShieldX, Lock, AlertTriangle, EyeOff } from 'lucide-vue-next'
+import { ShieldX, Lock, AlertTriangle, Shield } from 'lucide-vue-next'
 
 // Props from the controller
 interface Props {

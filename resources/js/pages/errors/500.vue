@@ -123,7 +123,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
-import { AlertTriangle, Bug, Activity, Server, Database, Wrench } from 'lucide-vue-next'
+import { AlertTriangle, Bug, Activity, Server, Database, Wrench, ServerCrash, AlertCircle } from 'lucide-vue-next'
 
 // Props from the controller
 interface Props {
@@ -135,7 +135,7 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const showDetails = ref(false)
+
 const retryCount = ref(0)
 
 onMounted(() => {
