@@ -9,16 +9,13 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { 
     User, 
-    Mail, 
     Phone, 
-    Shield, 
     Camera, 
     Save, 
     Key, 
     Eye, 
     EyeOff,
     Calendar,
-    MapPin,
     Globe,
     Twitter,
     Linkedin,
@@ -100,7 +97,7 @@ const toggleConfirmPassword = () => {
                         <div class="flex items-center space-x-6">
                             <div class="relative">
                                 <Avatar class="w-24 h-24 ring-4 ring-white dark:ring-slate-800">
-                                    <AvatarImage :src="user?.avatar" />
+                                    <AvatarImage v-if="user?.avatar" :src="user.avatar" />
                                     <AvatarFallback class="bg-gradient-primary text-white text-2xl">
                                         {{ user?.name?.charAt(0)?.toUpperCase() }}
                                     </AvatarFallback>

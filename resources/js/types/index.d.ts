@@ -32,6 +32,15 @@ export interface User {
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
+    role?: string;
+    phone?: string;
+    is_active?: boolean;
+    bio?: string;
+    location?: string;
+    website?: string;
+    twitter?: string;
+    linkedin?: string;
+    github?: string;
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;

@@ -9,21 +9,17 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { 
     User, 
-    Mail, 
     Phone, 
-    Shield, 
     Camera, 
     Save, 
     Key, 
     Eye, 
     EyeOff,
     Calendar,
-    MapPin,
     Globe,
     Twitter,
     Linkedin,
     Github,
-    Settings,
     Crown
 } from 'lucide-vue-next';
 
@@ -105,7 +101,7 @@ const toggleConfirmPassword = () => {
                         <div class="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6">
                             <div class="relative">
                                 <Avatar class="w-24 h-24 ring-4 ring-purple-200 dark:ring-purple-800">
-                                    <AvatarImage :src="user?.avatar" />
+                                    <AvatarImage v-if="user?.avatar" :src="user.avatar" />
                                     <AvatarFallback class="bg-gradient-to-r from-purple-600 to-pink-600 text-white text-2xl">
                                         {{ user?.name?.charAt(0)?.toUpperCase() }}
                                     </AvatarFallback>
