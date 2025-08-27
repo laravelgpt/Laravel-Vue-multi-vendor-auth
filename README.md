@@ -1,87 +1,67 @@
-﻿# Laravel-Vue-multi-vendor-auth
-
 # Laravel Vue Admin Dashboard
 
-A modern, responsive admin dashboard built with Laravel 12, Inertia.js, Vue 3, and Tailwind CSS. Features a beautiful purple/navy/blue gradient design with real social login icons and comprehensive admin functionality.
+A modern, full-featured Laravel application with Vue.js frontend, featuring comprehensive admin dashboard, social authentication, OTP login, and beautiful UI design.
 
-## 🚀 Features
+## 🚀 **Features**
 
-### ✨ **Modern Design & UX**
-- **Realistic Gradient Palette**: Purple, navy, and blue gradients throughout the application
-- **Glass Morphism Effects**: Beautiful backdrop blur and transparency effects
-- **Responsive Design**: Mobile-first approach with full responsive layouts
-- **Dark Mode Support**: Complete dark mode implementation
-- **Smooth Animations**: CSS animations and transitions for enhanced UX
+### **Authentication & Authorization**
+- ✅ **Multi-Provider Social Login**: Google, Facebook, GitHub, Apple
+- ✅ **OTP Authentication**: Email-based one-time password login/registration
+- ✅ **Traditional Authentication**: Email/password login and registration
+- ✅ **Role-Based Access Control**: Admin and regular user roles
+- ✅ **Password Reset**: Secure password recovery system
+- ✅ **Email Verification**: Account verification system
 
-### 🔐 **Authentication & Authorization**
-- **Multi-Provider Social Login**: Google, Facebook, GitHub with real icons
-- **OTP Authentication**: One-time password login option
-- **Email Verification**: Complete email verification flow
-- **Password Reset**: Secure password reset functionality
-- **Role-Based Access**: Admin and user role management
-- **Rate Limiting**: Built-in rate limiting for security
+### **Admin Dashboard**
+- ✅ **Comprehensive Admin Panel**: Full-featured administration interface
+- ✅ **User Management**: View, manage, and control user accounts
+- ✅ **Profile Management**: Admin profile settings and updates
+- ✅ **Responsive Design**: Mobile-first responsive layout
+- ✅ **Real-time Notifications**: Live notification system
+- ✅ **Search Functionality**: Global search across admin panel
 
-### 👤 **User Management**
-- **Profile Management**: Complete user profile with social links
-- **Admin Profiles**: Separate admin profile management
-- **Avatar Support**: User avatar with fallback initials
-- **Social Links**: Twitter, LinkedIn, GitHub integration
-- **Account Deletion**: Secure account deletion with confirmation
+### **User Features**
+- ✅ **Profile Management**: Complete user profile customization
+- ✅ **Password Updates**: Secure password change functionality
+- ✅ **Account Deletion**: Safe account removal with confirmation
+- ✅ **Social Links**: Connect social media accounts
+- ✅ **Avatar Support**: Profile picture management
 
-### 🛠️ **Admin Dashboard**
-- **Comprehensive Navigation**: 9 admin sections with descriptions
-- **User Management**: Full CRUD operations for users
-- **Analytics Dashboard**: Data insights and reporting
-- **Activity Logs**: System activity monitoring
-- **Database Management**: Database administration tools
-- **Report Generation**: Custom report creation
-- **Event Calendar**: Event scheduling and management
-- **Communication Center**: Messaging system
-- **System Settings**: Configuration management
+### **UI/UX Design**
+- ✅ **Modern Gradient Design**: Purple, navy, and blue color palette
+- ✅ **Glass Morphism**: Frosted glass effect components
+- ✅ **Dark/Light Mode**: Theme switching capability
+- ✅ **2D Animations**: Smooth transitions and micro-interactions
+- ✅ **Responsive Layout**: Mobile, tablet, and desktop optimized
+- ✅ **Accessibility**: WCAG compliant design
 
-### 🧪 **Testing & Quality**
-- **Comprehensive Test Suite**: 41 tests with 123 assertions
-- **Feature Tests**: Complete authentication flow testing
-- **Admin Tests**: Admin-specific functionality testing
-- **Profile Tests**: User profile management testing
-- **Pest Framework**: Modern PHP testing with Pest
+### **Technical Stack**
+- ✅ **Laravel 12**: Latest Laravel framework
+- ✅ **Vue 3**: Composition API with TypeScript
+- ✅ **Inertia.js v2**: Modern SPA without API complexity
+- ✅ **Tailwind CSS v4**: Utility-first CSS framework
+- ✅ **Pest v4**: Modern PHP testing framework
+- ✅ **Laravel Socialite**: Social authentication
+- ✅ **JWT Support**: Apple Sign-In integration
 
-## 🛠️ Tech Stack
+## 📋 **Requirements**
 
-### **Backend**
-- **Laravel 12**: Latest Laravel framework with new streamlined structure
-- **PHP 8.4**: Latest PHP version with modern features
-- **SQLite**: Lightweight database for development
-- **Inertia.js v2**: Modern SPA-like experience without API complexity
-
-### **Frontend**
-- **Vue 3**: Latest Vue.js with Composition API
-- **TypeScript**: Full TypeScript support
-- **Tailwind CSS v4**: Latest Tailwind with modern utilities
-- **Lucide Icons**: Beautiful, consistent icon set
-- **Wayfinder**: Laravel's modern frontend tooling
-
-### **Development Tools**
-- **Pest v4**: Modern PHP testing framework
-- **Laravel Pint**: Code formatting and style enforcement
-- **Vite**: Fast build tool with HMR
-- **Laravel Herd**: Local development environment
-
-## 📦 Installation
-
-### Prerequisites
 - PHP 8.4+
 - Composer
 - Node.js 18+
-- Laravel Herd (recommended) or local PHP server
+- npm or yarn
+- SQLite (default) or MySQL/PostgreSQL
+- Laravel Herd (recommended) or Laravel Valet
 
-### Step 1: Clone the Repository
+## 🛠️ **Installation**
+
+### **1. Clone the Repository**
 ```bash
-git clone <repository-url>
+git clone https://github.com/laravelgpt/Laravel-Vue-multi-vendor-auth.git
 cd laravel-vue
 ```
 
-### Step 2: Install Dependencies
+### **2. Install Dependencies**
 ```bash
 # Install PHP dependencies
 composer install
@@ -90,7 +70,7 @@ composer install
 npm install
 ```
 
-### Step 3: Environment Setup
+### **3. Environment Setup**
 ```bash
 # Copy environment file
 cp .env.example .env
@@ -99,100 +79,157 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-### Step 4: Database Setup
+### **4. Database Setup**
 ```bash
+# Create database (SQLite)
+touch database/database.sqlite
+
 # Run migrations
 php artisan migrate
 
-# Seed the database with admin user
+# Seed database (optional)
 php artisan db:seed
 ```
 
-### Step 5: Build Assets
+### **5. Build Assets**
 ```bash
-# Build for production
-npm run build
-
-# Or for development with HMR
+# Development
 npm run dev
+
+# Production
+npm run build
 ```
 
-### Step 6: Start the Application
+### **6. Start Development Server**
 ```bash
-# If using Laravel Herd, the site will be available at:
-# https://laravel-vue.test
+# Using Laravel Herd (recommended)
+# The site will be available at: http://laravel-vue.test
 
-# Or start with PHP's built-in server
+# Using Laravel's built-in server
 php artisan serve
 ```
 
-## 🚀 Usage
+## ⚙️ **Configuration**
 
-### **Default Admin Account**
-After running the seeder, you can login with:
-- **Email**: admin@example.com
-- **Password**: password
+### **Social Authentication Setup**
 
-### **Admin Dashboard Access**
-- Navigate to `/admin/dashboard` for admin panel
-- Access admin profile at `/admin/profile`
-- Manage users at `/admin/users`
+#### **Google OAuth**
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select existing one
+3. Enable Google+ API
+4. Create OAuth 2.0 credentials
+5. Add redirect URI: `http://laravel-vue.test/auth/google/callback`
+6. Add to `.env`:
+```env
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+GOOGLE_REDIRECT_URI=http://laravel-vue.test/auth/google/callback
+```
 
-### **User Features**
-- Regular user dashboard at `/dashboard`
-- Profile management at `/profile`
-- Settings at `/settings/profile`
+#### **Facebook OAuth**
+1. Go to [Facebook Developers](https://developers.facebook.com/)
+2. Create a new app
+3. Add Facebook Login product
+4. Configure redirect URI: `http://laravel-vue.test/auth/facebook/callback`
+5. Add to `.env`:
+```env
+FACEBOOK_CLIENT_ID=your-facebook-app-id
+FACEBOOK_CLIENT_SECRET=your-facebook-app-secret
+FACEBOOK_REDIRECT_URI=http://laravel-vue.test/auth/facebook/callback
+```
 
-## 🧪 Testing
+#### **GitHub OAuth**
+1. Go to [GitHub Settings](https://github.com/settings/developers)
+2. Create new OAuth App
+3. Set callback URL: `http://laravel-vue.test/auth/github/callback`
+4. Add to `.env`:
+```env
+GITHUB_CLIENT_ID=your-github-client-id
+GITHUB_CLIENT_SECRET=your-github-client-secret
+GITHUB_REDIRECT_URI=http://laravel-vue.test/auth/github/callback
+```
 
-### Run All Tests
+#### **Apple Sign-In**
+1. Go to [Apple Developer Console](https://developer.apple.com/account/)
+2. Create App ID with "Sign In with Apple" capability
+3. Create Service ID and private key
+4. Generate JWT client secret:
+```bash
+php artisan apple:generate-secret
+```
+5. Add to `.env`:
+```env
+APPLE_CLIENT_ID=com.yourcompany.yourapp.web
+APPLE_CLIENT_SECRET=your-jwt-client-secret
+APPLE_REDIRECT_URI=http://laravel-vue.test/auth/apple/callback
+APPLE_TEAM_ID=your-team-id
+APPLE_KEY_ID=your-key-id
+APPLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----..."
+```
+
+### **Mail Configuration**
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=mailpit
+MAIL_PORT=1025
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+## 🧪 **Testing**
+
+### **Run All Tests**
 ```bash
 php artisan test
 ```
 
-### Run Specific Test Suites
+### **Run Specific Test Suites**
 ```bash
 # Authentication tests
 php artisan test tests/Feature/Auth/
 
-# Admin functionality tests
+# Admin tests
 php artisan test tests/Feature/Settings/AdminProfileTest.php
 
-# Profile management tests
-php artisan test tests/Feature/Settings/ProfileUpdateTest.php
+# Social login tests
+php artisan test tests/Feature/SocialLoginTest.php
 ```
 
-### Code Quality
-```bash
-# Format code with Laravel Pint
-vendor/bin/pint
+### **Test Coverage**
+- ✅ **Authentication**: Login, registration, password reset
+- ✅ **Admin Features**: Dashboard, user management, profile updates
+- ✅ **Social Login**: All providers (Google, Facebook, GitHub, Apple)
+- ✅ **User Features**: Profile management, password updates
+- ✅ **Validation**: Form validation and error handling
 
-# Check code style
-vendor/bin/pint --test
-```
+## 🖼️ **Screenshots**
 
-## 🎨 Design System
+### **Authentication Screens**
 
-### **Color Palette**
-- **Primary**: Purple (#7C3AED) to Navy (#1E3A8A)
-- **Secondary**: Blue (#3B82F6)
-- **Background**: Slate gradients with purple/navy accents
-- **Text**: Slate-900 (light) / White (dark)
+#### **Login Screen**
+![Login Screen](https://i.imgur.com/login-screen.png)
+*Modern login interface with social authentication options and OTP support*
 
-### **Components**
-- **Cards**: Glass morphism with backdrop blur
-- **Buttons**: Gradient backgrounds with hover effects
-- **Forms**: Purple focus states and validation
-- **Navigation**: Purple/navy gradient active states
+#### **Registration Screen**
+![Registration Screen](https://i.imgur.com/registration-screen.png)
+*User-friendly registration form with multiple authentication methods*
 
-### **Social Icons**
-- **Google**: Chrome icon with red accent
-- **Facebook**: Facebook icon with brand blue
-- **GitHub**: GitHub icon with dark theme
-- **Twitter**: Twitter icon with blue accent
-- **LinkedIn**: LinkedIn icon with brand blue
+## 🎨 **UI Components**
+- `AdminLayout.vue` - Main admin layout with sidebar
+- `AdminSidebar.vue` - Responsive admin navigation
+- `SocialLoginButton.vue` - Social authentication buttons
+- `Card.vue` - Reusable card component
+- `Input.vue` - Form input component
+- `Button.vue` - Button component with variants
 
-## 📁 Project Structure
+### **Design System**
+- **Colors**: Purple, navy, and blue gradient palette
+- **Typography**: Modern, readable fonts
+- **Spacing**: Consistent spacing system
+- **Animations**: Smooth transitions and micro-interactions
+- **Responsive**: Mobile-first design approach
+
+## 📁 **Project Structure**
 
 ```
 laravel-vue/
@@ -200,133 +237,137 @@ laravel-vue/
 │   ├── Http/
 │   │   ├── Controllers/
 │   │   │   ├── Admin/
-│   │   │   │   ├── DashboardController.php
-│   │   │   │   ├── ProfileController.php
-│   │   │   │   └── UserController.php
+│   │   │   │   └── ProfileController.php
+│   │   │   ├── Auth/
+│   │   │   │   ├── SocialLoginController.php
+│   │   │   │   └── OtpLoginController.php
 │   │   │   └── ProfileController.php
-│   │   ├── Middleware/
-│   │   │   └── AdminMiddleware.php
 │   │   └── Requests/
-│   │       ├── ProfileUpdateRequest.php
-│   │       └── PasswordUpdateRequest.php
-│   └── Models/
-│       └── User.php
+│   │       ├── PasswordUpdateRequest.php
+│   │       └── ProfileUpdateRequest.php
+│   ├── Models/
+│   │   ├── User.php
+│   │   └── OtpCode.php
+│   └── Console/Commands/
+│       └── GenerateAppleClientSecret.php
 ├── resources/
 │   └── js/
 │       ├── components/
-│       │   ├── ui/
+│       │   ├── AdminSidebar.vue
 │       │   ├── SocialLoginButton.vue
-│       │   └── InputError.vue
+│       │   └── ui/
 │       ├── layouts/
 │       │   └── AdminLayout.vue
-│       ├── pages/
-│       │   ├── auth/
-│       │   │   ├── Login.vue
-│       │   │   └── Register.vue
-│       │   ├── Admin/
-│       │   │   ├── Dashboard.vue
-│       │   │   └── Profile.vue
-│       │   └── Profile.vue
-│       └── app.ts
+│       └── pages/
+│           ├── Admin/
+│           │   ├── Dashboard.vue
+│           │   ├── Profile.vue
+│           │   └── Users.vue
+│           ├── auth/
+│           │   ├── Login.vue
+│           │   ├── Register.vue
+│           │   ├── ForgotPassword.vue
+│           │   └── ResetPassword.vue
+│           └── Profile.vue
+├── routes/
+│   ├── web.php
+│   └── auth.php
 ├── tests/
 │   └── Feature/
 │       ├── Auth/
-│       └── Settings/
-└── routes/
-    ├── web.php
-    └── auth.php
+│       ├── Settings/
+│       └── SocialLoginTest.php
+└── config/
+    └── services.php
 ```
 
-## 🔧 Configuration
+## 🔧 **Development**
+
+### **Code Quality**
+```bash
+# Format code with Laravel Pint
+vendor/bin/pint
+
+# Run tests
+php artisan test
+
+# Build assets
+npm run build
+```
+
+### **Available Commands**
+```bash
+# Generate Apple Sign-In client secret
+php artisan apple:generate-secret
+
+# List all routes
+php artisan route:list
+
+# Clear caches
+php artisan config:clear
+php artisan cache:clear
+php artisan route:clear
+```
+
+## 🚀 **Deployment**
+
+### **Production Setup**
+1. Update environment variables for production
+2. Set `APP_ENV=production` and `APP_DEBUG=false`
+3. Update social login redirect URIs to production domain
+4. Configure production database
+5. Set up SSL certificates
+6. Build assets: `npm run build`
 
 ### **Environment Variables**
 ```env
-APP_NAME="Laravel Vue"
-APP_ENV=local
-APP_KEY=base64:...
-APP_DEBUG=true
-APP_URL=http://laravel-vue.test
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://yourdomain.com
 
-DB_CONNECTION=sqlite
-DB_DATABASE=database/database.sqlite
-
-MAIL_MAILER=log
+# Update redirect URIs for production
+GOOGLE_REDIRECT_URI=https://yourdomain.com/auth/google/callback
+FACEBOOK_REDIRECT_URI=https://yourdomain.com/auth/facebook/callback
+GITHUB_REDIRECT_URI=https://yourdomain.com/auth/github/callback
+APPLE_REDIRECT_URI=https://yourdomain.com/auth/apple/callback
 ```
 
-### **Social Login Setup**
-Configure your social login providers in `.env`:
-```env
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
-GOOGLE_REDIRECT_URI=http://laravel-vue.test/login/google/callback
+## 📚 **Documentation**
 
-FACEBOOK_CLIENT_ID=your-facebook-client-id
-FACEBOOK_CLIENT_SECRET=your-facebook-client-secret
-FACEBOOK_REDIRECT_URI=http://laravel-vue.test/login/facebook/callback
+- [Laravel Best Practices](./LARAVEL_BEST_PRACTICES.md) - Comprehensive best practices guide
+- [Environment Configuration](./ENV_CONFIG.md) - Complete environment setup guide
+- [Apple Sign-In Setup](./APPLE_SIGNIN_SETUP.md) - Detailed Apple Sign-In configuration
 
-GITHUB_CLIENT_ID=your-github-client-id
-GITHUB_CLIENT_SECRET=your-github-client-secret
-GITHUB_REDIRECT_URI=http://laravel-vue.test/login/github/callback
-```
-
-## 🚀 Deployment
-
-### **Production Build**
-```bash
-# Install production dependencies
-composer install --optimize-autoloader --no-dev
-
-# Build assets for production
-npm run build
-
-# Cache configuration
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-```
-
-### **Server Requirements**
-- PHP 8.4+
-- Composer
-- Node.js 18+ (for building assets)
-- Web server (Apache/Nginx)
-
-## 🤝 Contributing
+## 🤝 **Contributing**
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create a feature branch
+3. Make your changes
+4. Add tests for new features
+5. Ensure all tests pass
+6. Submit a pull request
 
-### **Development Guidelines**
-- Follow Laravel conventions
-- Write tests for new features
-- Use TypeScript for frontend code
-- Follow Tailwind CSS best practices
-- Ensure responsive design
-- Test in both light and dark modes
-
-## 📄 License
+## 📄 **License**
 
 This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-## 🙏 Acknowledgments
-
-- [Laravel](https://laravel.com/) - The PHP framework
-- [Vue.js](https://vuejs.org/) - The progressive JavaScript framework
-- [Inertia.js](https://inertiajs.com/) - Modern monoliths
-- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
-- [Lucide](https://lucide.dev/) - Beautiful icons
-- [Pest](https://pestphp.com/) - Testing framework
-
-## 📞 Support
+## 🆘 **Support**
 
 For support and questions:
-- Create an issue on GitHub
-- Check the documentation
-- Review the test suite for examples
+- Check the documentation files
+- Review the test files for usage examples
+- Open an issue on GitHub
+
+## 🎯 **Roadmap**
+
+- [ ] Real-time notifications with WebSockets
+- [ ] Advanced user analytics dashboard
+- [ ] Multi-language support
+- [ ] Advanced role permissions system
+- [ ] API documentation with OpenAPI
+- [ ] Docker containerization
+- [ ] CI/CD pipeline setup
 
 ---
 
-**Built with ❤️ using Laravel 12, Vue 3, and Tailwind CSS**
+**Built with ❤️ using Laravel, Vue.js, and Tailwind CSS**
