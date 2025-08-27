@@ -100,7 +100,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
-import { ShieldX, Lock, AlertTriangle, Eye, EyeOff, Key, UserX } from 'lucide-vue-next'
+import { ShieldX, Lock, AlertTriangle, EyeOff } from 'lucide-vue-next'
 
 // Props from the controller
 interface Props {
@@ -122,14 +122,10 @@ onMounted(() => {
 
 const goBack = () => {
   if (window.history.length > 1) {
-    router.visit(window.history.back())
+    window.history.back()
   } else {
     router.visit('/')
   }
-}
-
-const toggleDetails = () => {
-  showDetails.value = !showDetails.value
 }
 </script>
 

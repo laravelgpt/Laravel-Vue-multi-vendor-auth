@@ -45,9 +45,9 @@
           <span class="text-red-400 font-semibold">Technical Details</span>
         </div>
         <p class="text-gray-300 text-sm">
-          Error ID: {{ errorId }}<br>
-          Timestamp: {{ timestamp }}<br>
-          Status: {{ status }}
+          Error ID: {{ props.errorId }}<br>
+          Timestamp: {{ props.timestamp }}<br>
+          Status: 500 Internal Server Error
         </p>
       </div>
 
@@ -123,7 +123,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
-import { AlertTriangle, Bug, RefreshCw, Activity, Server, Zap, WifiOff } from 'lucide-vue-next'
+import { AlertTriangle, Bug, Activity, Server, Database, Wrench } from 'lucide-vue-next'
 
 // Props from the controller
 interface Props {
@@ -146,7 +146,7 @@ onMounted(() => {
 
 const goBack = () => {
   if (window.history.length > 1) {
-    router.visit(window.history.back())
+    window.history.back()
   } else {
     router.visit('/')
   }
@@ -155,10 +155,6 @@ const goBack = () => {
 const retry = () => {
   retryCount.value++
   window.location.reload()
-}
-
-const toggleDetails = () => {
-  showDetails.value = !showDetails.value
 }
 </script>
 

@@ -129,7 +129,7 @@ const props = defineProps<Props>()
 
 const countdown = ref(60)
 const showDetails = ref(false)
-let countdownInterval: NodeJS.Timeout | null = null
+let countdownInterval: number | null = null
 
 onMounted(() => {
   // Use the errorId from props instead of generating a new one
@@ -156,7 +156,7 @@ onUnmounted(() => {
 
 const goBack = () => {
   if (window.history.length > 1) {
-    router.visit(window.history.back())
+    window.history.back()
   } else {
     router.visit('/')
   }
@@ -164,10 +164,6 @@ const goBack = () => {
 
 const retry = () => {
   window.location.reload()
-}
-
-const toggleDetails = () => {
-  showDetails.value = !showDetails.value
 }
 </script>
 

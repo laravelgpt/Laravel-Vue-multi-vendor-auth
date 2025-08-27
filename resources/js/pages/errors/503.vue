@@ -146,7 +146,7 @@ const props = defineProps<Props>()
 
 const estimatedTime = ref('30 minutes')
 const progress = ref(0)
-let progressInterval: NodeJS.Timeout | null = null
+let progressInterval: number | null = null
 
 onMounted(() => {
   // Use the errorId from props instead of generating a new one
@@ -173,7 +173,7 @@ const refreshPage = () => {
 
 const goBack = () => {
   if (window.history.length > 1) {
-    router.visit(window.history.back())
+    window.history.back()
   } else {
     router.visit('/')
   }

@@ -150,7 +150,7 @@ onMounted(() => {
 
 const goBack = () => {
   if (window.history.length > 1) {
-    router.visit(window.history.back())
+    window.history.back()
   } else {
     router.visit('/')
   }
