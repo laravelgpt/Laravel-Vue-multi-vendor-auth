@@ -202,9 +202,19 @@ php artisan test tests/Feature/SocialLoginTest.php
 - ✅ **User Features**: Profile management, password updates
 - ✅ **Validation**: Form validation and error handling
 
-## 🎨 **UI Components**
+## 🖼️ **Screenshots**
 
-### **Available Components**
+### **Authentication Screens**
+
+#### **Login Screen**
+![Login Screen](https://i.imgur.com/login-screen.png)
+*Modern login interface with social authentication options and OTP support*
+
+#### **Registration Screen**
+![Registration Screen](https://i.imgur.com/registration-screen.png)
+*User-friendly registration form with multiple authentication methods*
+
+## 🎨 **UI Components**
 - `AdminLayout.vue` - Main admin layout with sidebar
 - `AdminSidebar.vue` - Responsive admin navigation
 - `SocialLoginButton.vue` - Social authentication buttons
