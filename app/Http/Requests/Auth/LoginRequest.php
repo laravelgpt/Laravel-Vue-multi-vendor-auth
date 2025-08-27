@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * @method array only(string|array $keys)
+ * @method bool boolean(string $key, bool $default = false)
+ * @method \Illuminate\Support\Stringable string(string $key)
+ * @method string ip()
+ */
 class LoginRequest extends FormRequest
 {
     /**

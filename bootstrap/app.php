@@ -45,11 +45,11 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($request->expectsJson()) {
                 return response()->json([
                     'error' => 'Access forbidden',
-                    'error_id' => '403-' . now()->format('YmdHis') . '-' . \Illuminate\Support\Str::random(8),
+                    'error_id' => '403-'.now()->format('YmdHis').'-'.\Illuminate\Support\Str::random(8),
                     'timestamp' => now()->toISOString(),
                 ], 403);
             }
-            
+
             return app(ErrorController::class)->forbidden($request);
         });
 
@@ -58,11 +58,11 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($request->expectsJson()) {
                 return response()->json([
                     'error' => 'Resource not found',
-                    'error_id' => '404-' . now()->format('YmdHis') . '-' . \Illuminate\Support\Str::random(8),
+                    'error_id' => '404-'.now()->format('YmdHis').'-'.\Illuminate\Support\Str::random(8),
                     'timestamp' => now()->toISOString(),
                 ], 404);
             }
-            
+
             return app(ErrorController::class)->notFound($request);
         });
 
@@ -71,11 +71,11 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($request->expectsJson()) {
                 return response()->json([
                     'error' => 'Method not allowed',
-                    'error_id' => '405-' . now()->format('YmdHis') . '-' . \Illuminate\Support\Str::random(8),
+                    'error_id' => '405-'.now()->format('YmdHis').'-'.\Illuminate\Support\Str::random(8),
                     'timestamp' => now()->toISOString(),
                 ], 405);
             }
-            
+
             return app(ErrorController::class)->methodNotAllowed($request);
         });
 
@@ -84,11 +84,11 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($request->expectsJson()) {
                 return response()->json([
                     'error' => 'Too many requests',
-                    'error_id' => '429-' . now()->format('YmdHis') . '-' . \Illuminate\Support\Str::random(8),
+                    'error_id' => '429-'.now()->format('YmdHis').'-'.\Illuminate\Support\Str::random(8),
                     'timestamp' => now()->toISOString(),
                 ], 429);
             }
-            
+
             return app(ErrorController::class)->tooManyRequests($request);
         });
 
@@ -97,40 +97,40 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($request->expectsJson()) {
                 return response()->json([
                     'error' => 'Unauthorized',
-                    'error_id' => '401-' . now()->format('YmdHis') . '-' . \Illuminate\Support\Str::random(8),
+                    'error_id' => '401-'.now()->format('YmdHis').'-'.\Illuminate\Support\Str::random(8),
                     'timestamp' => now()->toISOString(),
                 ], 401);
             }
-            
+
             return app(ErrorController::class)->unauthorized($request);
         });
 
-        // Handle validation errors (422) - temporarily disabled for testing
-        // $exceptions->renderable(function (ValidationException $e, Request $request) {
-        //     if ($request->expectsJson()) {
-        //         return response()->json([
-        //             'error' => 'Validation failed',
-        //             'errors' => $e->errors(),
-        //             'error_id' => '422-' . now()->format('YmdHis') . '-' . \Illuminate\Support\Str::random(8),
-        //             'timestamp' => now()->toISOString(),
-        //         ], 422);
-        //     }
-        //     
-        //     return app(ErrorController::class)->unprocessableEntity($request);
-        // });
+        // Handle validation errors (422)
+        $exceptions->renderable(function (ValidationException $e, Request $request) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'error' => 'Validation failed',
+                    'errors' => $e->errors(),
+                    'error_id' => '422-'.now()->format('YmdHis').'-'.\Illuminate\Support\Str::random(8),
+                    'timestamp' => now()->toISOString(),
+                ], 422);
+            }
+
+            return back()->withErrors($e->errors())->withInput();
+        });
 
         // Handle general HTTP exceptions
         $exceptions->renderable(function (HttpException $e, Request $request) {
             $statusCode = $e->getStatusCode();
-            
+
             if ($request->expectsJson()) {
                 return response()->json([
                     'error' => $e->getMessage() ?: 'HTTP error occurred',
-                    'error_id' => $statusCode . '-' . now()->format('YmdHis') . '-' . \Illuminate\Support\Str::random(8),
+                    'error_id' => $statusCode.'-'.now()->format('YmdHis').'-'.\Illuminate\Support\Str::random(8),
                     'timestamp' => now()->toISOString(),
                 ], $statusCode);
             }
-            
+
             return app(ErrorController::class)->generic($request, $statusCode, $e->getMessage());
         });
 
@@ -151,11 +151,11 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($request->expectsJson()) {
                 return response()->json([
                     'error' => config('app.debug') ? $e->getMessage() : 'Internal server error',
-                    'error_id' => '500-' . now()->format('YmdHis') . '-' . \Illuminate\Support\Str::random(8),
+                    'error_id' => '500-'.now()->format('YmdHis').'-'.\Illuminate\Support\Str::random(8),
                     'timestamp' => now()->toISOString(),
                 ], 500);
             }
-            
+
             return app(ErrorController::class)->internalServerError($request);
         });
     })->create();

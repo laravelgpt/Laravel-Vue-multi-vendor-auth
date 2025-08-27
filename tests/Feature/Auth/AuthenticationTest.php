@@ -30,8 +30,9 @@ test('users can not authenticate with invalid password', function () {
         'password' => 'wrong-password',
     ]);
 
-    // In Laravel 12, failed login attempts are handled by the exception handler
-    $response->assertStatus(500);
+    // Failed login attempts redirect back with validation errors
+    $response->assertStatus(302);
+    $response->assertSessionHasErrors('email');
     $this->assertGuest();
 });
 
@@ -55,9 +56,10 @@ test('users are rate limited', function () {
             'email' => $user->email,
             'password' => 'wrong-password',
         ]);
-        
-        // In Laravel 12, failed login attempts are handled by the exception handler
-        $response->assertStatus(500);
+
+        // Failed login attempts redirect back with validation errors
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('email');
     }
 
     // The 6th attempt should be rate limited by the authentication controller
@@ -66,11 +68,13 @@ test('users are rate limited', function () {
         'password' => 'wrong-password',
     ]);
 
-    // In Laravel 12, rate limited login attempts are handled by the exception handler
-    $response->assertStatus(500);
+    // Rate limited login attempts redirect back with validation errors
+    $response->assertStatus(302);
+    $response->assertSessionHasErrors('email');
 });
 
 // Helper method to generate throttle key
-function throttleKey($email) {
+function throttleKey($email)
+{
     return \Illuminate\Support\Str::transliterate(\Illuminate\Support\Str::lower($email).'|127.0.0.1');
 }

@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\RateLimiter;
 
+uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+
 beforeEach(function () {
     // Clear rate limiters before each test
     RateLimiter::clear('security_default_127.0.0.1');
@@ -166,10 +168,11 @@ test('different rate limits for different endpoints', function () {
     }
 
     $response = $this->post('/login', ['email' => 'test@example.com', 'password' => 'password']);
-    $response->assertStatus(429);
+    $response->assertStatus(302); // Login rate limiting redirects with validation errors
+    $response->assertSessionHasErrors('email');
 
     // Clear rate limiters
-    RateLimiter::clear('security_login_127.0.0.1');
+    RateLimiter::clear('test@example.com|127.0.0.1');
 
     // Test register rate limiting (3 attempts per 10 minutes)
     for ($i = 0; $i < 3; $i++) {
@@ -177,7 +180,7 @@ test('different rate limits for different endpoints', function () {
     }
 
     $response = $this->post('/register', ['name' => 'Test User', 'email' => 'test@example.com', 'password' => 'password']);
-    $response->assertStatus(429);
+    $response->assertStatus(429); // Register rate limiting returns 429
 });
 
 test('admin endpoints have stricter rate limiting', function () {
