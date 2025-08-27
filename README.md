@@ -207,11 +207,13 @@ php artisan test tests/Feature/SocialLoginTest.php
 ### **Authentication Screens**
 
 #### **Login Screen**
-![Login Screen](https://i.imgur.com/login-screen.png)
+<img width="1920" height="944" alt="image" src="https://github.com/user-attachments/assets/d40cfe57-a79b-41a7-9688-4b0fa9128f9b" />
+
 *Modern login interface with social authentication options and OTP support*
 
 #### **Registration Screen**
-![Registration Screen](https://i.imgur.com/registration-screen.png)
+<img width="1920" height="950" alt="image" src="https://github.com/user-attachments/assets/72506f83-4620-4197-8b76-1181283ba245" />
+
 *User-friendly registration form with multiple authentication methods*
 
 ## 🎨 **UI Components**
@@ -371,3 +373,4 @@ For support and questions:
 ---
 
 **Built with ❤️ using Laravel, Vue.js, and Tailwind CSS**
+
