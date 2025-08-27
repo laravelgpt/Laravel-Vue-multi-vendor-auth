@@ -67,7 +67,7 @@
       <!-- Action Buttons -->
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in-delay-4">
         <button
-          @click="refreshPage"
+          @click="retry"
           :disabled="countdown > 0"
           class="group relative px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
         >
@@ -95,7 +95,7 @@
       <!-- Help Text -->
       <div class="mt-8 text-gray-400 text-sm animate-fade-in-delay-5">
         <p>If this problem persists, please contact our support team.</p>
-        <p class="mt-2">Error ID: {{ errorId }}</p>
+        <p class="mt-2">Error ID: {{ props.errorId }}</p>
       </div>
     </div>
 
@@ -115,17 +115,28 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
-import { Clock, AlertTriangle, Timer, Hourglass } from 'lucide-vue-next'
+import { Clock, Timer, AlertTriangle, RefreshCw, Hourglass, Zap, Activity } from 'lucide-vue-next'
 
-// Generate a unique error ID for tracking
-const errorId = ref('')
-const countdown = ref(30) // 30 seconds countdown
+// Props from the controller
+interface Props {
+  errorId: string
+  timestamp: string
+  ip?: string
+  userAgent?: string
+}
+
+const props = defineProps<Props>()
+
+const countdown = ref(60)
+const showDetails = ref(false)
 let countdownInterval: NodeJS.Timeout | null = null
 
 onMounted(() => {
-  errorId.value = '429-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9)
+  // Use the errorId from props instead of generating a new one
+  console.log('Error ID:', props.errorId)
+  console.log('Timestamp:', props.timestamp)
   
-  // Start countdown timer
+  // Start countdown
   countdownInterval = setInterval(() => {
     if (countdown.value > 0) {
       countdown.value--
@@ -143,18 +154,20 @@ onUnmounted(() => {
   }
 })
 
-const refreshPage = () => {
-  if (countdown.value === 0) {
-    window.location.reload()
-  }
-}
-
 const goBack = () => {
   if (window.history.length > 1) {
     router.visit(window.history.back())
   } else {
     router.visit('/')
   }
+}
+
+const retry = () => {
+  window.location.reload()
+}
+
+const toggleDetails = () => {
+  showDetails.value = !showDetails.value
 }
 </script>
 

@@ -123,21 +123,26 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
-import { ServerCrash, AlertCircle, Bug, Activity, Server, Database, Wrench } from 'lucide-vue-next'
+import { AlertTriangle, Bug, RefreshCw, Activity, Server, Zap, WifiOff } from 'lucide-vue-next'
 
-// Generate a unique error ID for tracking
-const errorId = ref('')
-const timestamp = ref('')
-const status = ref('500 Internal Server Error')
+// Props from the controller
+interface Props {
+  errorId: string
+  timestamp: string
+  ip?: string
+  userAgent?: string
+}
+
+const props = defineProps<Props>()
+
+const showDetails = ref(false)
+const retryCount = ref(0)
 
 onMounted(() => {
-  errorId.value = '500-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9)
-  timestamp.value = new Date().toISOString()
+  // Use the errorId from props instead of generating a new one
+  console.log('Error ID:', props.errorId)
+  console.log('Timestamp:', props.timestamp)
 })
-
-const retry = () => {
-  window.location.reload()
-}
 
 const goBack = () => {
   if (window.history.length > 1) {
@@ -145,6 +150,15 @@ const goBack = () => {
   } else {
     router.visit('/')
   }
+}
+
+const retry = () => {
+  retryCount.value++
+  window.location.reload()
+}
+
+const toggleDetails = () => {
+  showDetails.value = !showDetails.value
 }
 </script>
 

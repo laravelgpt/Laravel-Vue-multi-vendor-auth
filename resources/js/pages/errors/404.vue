@@ -107,7 +107,7 @@
       <!-- Help Text -->
       <div class="mt-8 text-gray-400 text-sm animate-fade-in-delay-4">
         <p>If you believe this is an error, please contact support.</p>
-        <p class="mt-2">Error ID: {{ errorId }}</p>
+        <p class="mt-2">Error ID: {{ props.errorId }}</p>
       </div>
     </div>
 
@@ -129,13 +129,23 @@ import { ref, onMounted } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 import { SearchX, MapPin, Search, X, Compass, Map, Navigation } from 'lucide-vue-next'
 
-// Generate a unique error ID for tracking
-const errorId = ref('')
+// Props from the controller
+interface Props {
+  errorId: string
+  timestamp: string
+  ip?: string
+  userAgent?: string
+}
+
+const props = defineProps<Props>()
+
 const showSearch = ref(false)
 const searchQuery = ref('')
 
 onMounted(() => {
-  errorId.value = '404-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9)
+  // Use the errorId from props instead of generating a new one
+  console.log('Error ID:', props.errorId)
+  console.log('Timestamp:', props.timestamp)
 })
 
 const goBack = () => {

@@ -80,7 +80,7 @@
       <!-- Help Text -->
       <div class="mt-8 text-gray-400 text-sm animate-fade-in-delay-4">
         <p>Need help? Contact our support team for assistance.</p>
-        <p class="mt-2">Error ID: {{ errorId }}</p>
+        <p class="mt-2">Error ID: {{ props.errorId }}</p>
       </div>
     </div>
 
@@ -100,13 +100,24 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
-import { UserX, Lock, Shield, User, Key } from 'lucide-vue-next'
+import { Lock, UserX, Shield, Key, LogIn, AlertTriangle, EyeOff } from 'lucide-vue-next'
 
-// Generate a unique error ID for tracking
-const errorId = ref('')
+// Props from the controller
+interface Props {
+  errorId: string
+  timestamp: string
+  ip?: string
+  userAgent?: string
+}
+
+const props = defineProps<Props>()
+
+const showDetails = ref(false)
 
 onMounted(() => {
-  errorId.value = '401-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9)
+  // Use the errorId from props instead of generating a new one
+  console.log('Error ID:', props.errorId)
+  console.log('Timestamp:', props.timestamp)
 })
 
 const goBack = () => {
@@ -115,6 +126,10 @@ const goBack = () => {
   } else {
     router.visit('/')
   }
+}
+
+const toggleDetails = () => {
+  showDetails.value = !showDetails.value
 }
 </script>
 

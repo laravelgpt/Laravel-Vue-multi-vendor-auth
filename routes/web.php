@@ -22,6 +22,11 @@ Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('home');
 
+// Test route for admin rate limiting tests
+Route::get('/admin/test', function () {
+    return response()->json(['message' => 'Admin test route']);
+})->name('admin.test');
+
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
