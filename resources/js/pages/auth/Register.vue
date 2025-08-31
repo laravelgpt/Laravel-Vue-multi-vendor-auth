@@ -5,8 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import TextLink from '@/components/TextLink.vue';
-import { Eye, EyeOff, Mail, Lock, User, Check, Shield, Smartphone } from 'lucide-vue-next';
-import { ref } from 'vue';
+import PasswordStrengthMeter from '@/components/PasswordStrengthMeter.vue';
+import { Eye, EyeOff, Mail, Lock, User, Check, Shield, Smartphone, AlertCircle } from 'lucide-vue-next';
+import { ref, computed } from 'vue';
 
 const showPassword = ref(false);
 const showConfirmPassword = ref(false);
@@ -26,7 +27,28 @@ const otpForm = useForm({
     terms: false,
 });
 
+// Computed properties for password validation
+const passwordsMatch = computed(() => {
+    return passwordForm.password && passwordForm.password_confirmation && 
+           passwordForm.password === passwordForm.password_confirmation;
+});
+
+const isPasswordValid = computed(() => {
+    return passwordForm.password && passwordForm.password.length >= 8;
+});
+
+const canSubmit = computed(() => {
+    return passwordForm.name && 
+           passwordForm.email && 
+           passwordForm.password && 
+           passwordForm.password_confirmation && 
+           passwordsMatch.value && 
+           passwordForm.terms;
+});
+
 const submitPassword = () => {
+    if (!canSubmit.value) return;
+    
     passwordForm.post('/register', {
         onFinish: () => passwordForm.reset('password', 'password_confirmation'),
     });
@@ -146,51 +168,74 @@ const switchToPassword = () => {
                             <Label for="password" class="text-slate-700 dark:text-slate-300 font-medium">Password</Label>
                             <div class="relative group">
                                 <Lock class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-purple-600 transition-colors" />
-                                        <Input
-                                            id="password"
+                                <Input
+                                    id="password"
                                     v-model="passwordForm.password"
-                                            :type="showPassword ? 'text' : 'password'"
-                                            required
-                                            autocomplete="new-password"
+                                    :type="showPassword ? 'text' : 'password'"
+                                    required
+                                    autocomplete="new-password"
                                     class="pl-12 pr-12 py-3 border-2 border-slate-300 dark:border-slate-600 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/20 dark:bg-slate-800 dark:text-white rounded-xl transition-all duration-300"
-                                    placeholder="Create a password"
-                                        />
-                                        <button
-                                            type="button"
+                                    placeholder="Create a strong password"
+                                />
+                                <button
+                                    type="button"
                                     @click="showPassword = !showPassword"
                                     class="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                                        >
+                                >
                                     <Eye v-if="!showPassword" class="w-5 h-5" />
                                     <EyeOff v-else class="w-5 h-5" />
-                                        </button>
-                                    </div>
+                                </button>
+                            </div>
+                            
+                            <!-- Password Strength Meter -->
+                            <div v-if="passwordForm.password" class="mt-3">
+                                <PasswordStrengthMeter :password="passwordForm.password" />
+                            </div>
+                            
                             <div v-if="passwordForm.errors.password" class="text-sm text-red-600 dark:text-red-400">
                                 {{ passwordForm.errors.password }}
                             </div>
-                                </div>
+                        </div>
 
                         <div class="space-y-2">
                             <Label for="password_confirmation" class="text-slate-700 dark:text-slate-300 font-medium">Confirm Password</Label>
                             <div class="relative group">
                                 <Check class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-purple-600 transition-colors" />
-                                        <Input
-                                            id="password_confirmation"
+                                <Input
+                                    id="password_confirmation"
                                     v-model="passwordForm.password_confirmation"
-                                            :type="showConfirmPassword ? 'text' : 'password'"
-                                            required
-                                            autocomplete="new-password"
-                                    class="pl-12 pr-12 py-3 border-2 border-slate-300 dark:border-slate-600 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/20 dark:bg-slate-800 dark:text-white rounded-xl transition-all duration-300"
-                                            placeholder="Confirm your password"
-                                        />
-                                        <button
-                                            type="button"
+                                    :type="showConfirmPassword ? 'text' : 'password'"
+                                    required
+                                    autocomplete="new-password"
+                                    :class="[
+                                        'pl-12 pr-12 py-3 border-2 focus:ring-4 focus:ring-purple-500/20 dark:bg-slate-800 dark:text-white rounded-xl transition-all duration-300',
+                                        passwordForm.password_confirmation
+                                            ? passwordsMatch.value
+                                                ? 'border-green-500 focus:border-green-500'
+                                                : 'border-red-500 focus:border-red-500'
+                                            : 'border-slate-300 dark:border-slate-600 focus:border-purple-500'
+                                    ]"
+                                    placeholder="Confirm your password"
+                                />
+                                <button
+                                    type="button"
                                     @click="showConfirmPassword = !showConfirmPassword"
                                     class="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                                        >
+                                >
                                     <Eye v-if="!showConfirmPassword" class="w-5 h-5" />
                                     <EyeOff v-else class="w-5 h-5" />
-                                        </button>
-                                    </div>
+                                </button>
+                            </div>
+                            
+                            <!-- Password Match Indicator -->
+                            <div v-if="passwordForm.password_confirmation" class="flex items-center space-x-2 text-sm">
+                                <Check v-if="passwordsMatch.value" class="w-4 h-4 text-green-500" />
+                                <AlertCircle v-else class="w-4 h-4 text-red-500" />
+                                <span :class="passwordsMatch.value ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'">
+                                    {{ passwordsMatch.value ? 'Passwords match' : 'Passwords do not match' }}
+                                </span>
+                            </div>
+                            
                             <div v-if="passwordForm.errors.password_confirmation" class="text-sm text-red-600 dark:text-red-400">
                                 {{ passwordForm.errors.password_confirmation }}
                             </div>
@@ -217,15 +262,24 @@ const switchToPassword = () => {
 
                         <Button
                             type="submit"
-                            :disabled="passwordForm.processing"
-                            class="w-full bg-gradient-to-r from-purple-600 via-navy-600 to-blue-600 hover:from-purple-700 hover:via-navy-700 hover:to-blue-700 text-white py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300"
+                            :disabled="passwordForm.processing || !canSubmit"
+                            :class="[
+                                'w-full py-4 rounded-xl font-semibold text-lg shadow-lg transition-all duration-300',
+                                canSubmit && !passwordForm.processing
+                                    ? 'bg-gradient-to-r from-purple-600 via-navy-600 to-blue-600 hover:from-purple-700 hover:via-navy-700 hover:to-blue-700 text-white hover:shadow-xl transform hover:-translate-y-0.5'
+                                    : 'bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400 cursor-not-allowed'
+                            ]"
                         >
                             <div v-if="passwordForm.processing" class="flex items-center space-x-2">
                                 <div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                                 <span>Creating account...</span>
                             </div>
+                            <span v-else-if="!canSubmit" class="flex items-center space-x-2">
+                                <AlertCircle class="w-5 h-5" />
+                                <span>Complete all fields</span>
+                            </span>
                             <span v-else>Create account</span>
-                                </Button>
+                        </Button>
                     </form>
                 </div>
 

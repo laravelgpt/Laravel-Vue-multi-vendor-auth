@@ -22,6 +22,7 @@ import {
     Github,
     Crown
 } from 'lucide-vue-next';
+import PasswordStrengthMeter from '@/components/PasswordStrengthMeter.vue';
 
 const page = usePage();
 const user = computed(() => page.props.auth?.user);
@@ -266,6 +267,11 @@ const toggleConfirmPassword = () => {
                                     />
                                 </div>
                                 <p v-if="passwordForm.errors.password" class="text-red-500 text-sm mt-1">{{ passwordForm.errors.password }}</p>
+                                
+                                <!-- Password Strength Meter -->
+                                <div class="mt-3">
+                                    <PasswordStrengthMeter :password="passwordForm.password" />
+                                </div>
                             </div>
 
                             <div>

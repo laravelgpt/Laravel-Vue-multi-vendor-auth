@@ -66,15 +66,15 @@ test('admin password can be updated', function () {
         ->actingAs($admin)
         ->put('/admin/profile/password', [
             'current_password' => 'password',
-            'password' => 'new-admin-password',
-            'password_confirmation' => 'new-admin-password',
+            'password' => 'NewAdminPassword123!',
+            'password_confirmation' => 'NewAdminPassword123!',
         ]);
 
     $response
         ->assertSessionHasNoErrors()
         ->assertRedirect('/admin/profile');
 
-    expect(Hash::check('new-admin-password', $admin->refresh()->password))->toBeTrue();
+    expect(Hash::check('NewAdminPassword123!', $admin->refresh()->password))->toBeTrue();
 });
 
 test('admin profile validation works correctly', function () {
