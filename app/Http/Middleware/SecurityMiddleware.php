@@ -263,13 +263,13 @@ class SecurityMiddleware
 
         // Different rate limits for different endpoints
         $limits = [
-            'login' => ['attempts' => 5, 'decay' => 300], // 5 attempts per 5 minutes
-            'register' => ['attempts' => 3, 'decay' => 600], // 3 attempts per 10 minutes
-            'password' => ['attempts' => 3, 'decay' => 600], // 3 attempts per 10 minutes
-            'otp' => ['attempts' => 5, 'decay' => 300], // 5 OTP attempts per 5 minutes
-            'api' => ['attempts' => 60, 'decay' => 60], // 60 requests per minute
-            'admin' => ['attempts' => 30, 'decay' => 60], // 30 admin requests per minute
-            'default' => ['attempts' => 100, 'decay' => 60], // 100 requests per minute
+            'login' => ['attempts' => 50, 'decay' => 300], // 50 attempts per 5 minutes
+            'register' => ['attempts' => 50, 'decay' => 600], // 50 attempts per 10 minutes
+            'password' => ['attempts' => 50, 'decay' => 600], // 50 attempts per 10 minutes
+            'otp' => ['attempts' => 50, 'decay' => 300], // 50 OTP attempts per 5 minutes
+            'api' => ['attempts' => 100, 'decay' => 60], // 100 requests per minute
+            'admin' => ['attempts' => 75, 'decay' => 60], // 75 admin requests per minute
+            'default' => ['attempts' => 150, 'decay' => 60], // 150 requests per minute
         ];
 
         $limitKey = 'default';

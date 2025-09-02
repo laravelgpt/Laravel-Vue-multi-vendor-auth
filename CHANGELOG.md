@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2024-12-19
+
+### Changed
+- **Rate Limiting**: Increased rate limits across all endpoints to 50+ attempts
+  - Login: 50 attempts per 5 minutes (was 5)
+  - Register: 50 attempts per 10 minutes (was 3)
+  - Password Reset: 50 attempts per 10 minutes (was 3)
+  - OTP: 50 attempts per 5 minutes (was 5)
+  - API: 100 requests per minute (was 60)
+  - Admin: 75 requests per minute (was 30)
+  - Default: 150 requests per minute (was 100)
+- Enhanced security middleware with higher rate limits for better user experience
+
 ## [Unreleased]
 
 ### Added
