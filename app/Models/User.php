@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -20,6 +20,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
         'role',
@@ -32,6 +33,25 @@ class User extends Authenticatable
         'twitter',
         'linkedin',
         'github',
+        'first_name',
+        'last_name',
+        'date_of_birth',
+        'gender',
+        'address_line_1',
+        'address_line_2',
+        'city',
+        'state',
+        'postal_code',
+        'country',
+        'company',
+        'job_title',
+        'department',
+        'employee_id',
+        'timezone',
+        'language',
+        'notification_preferences',
+        'interests',
+        'skills',
     ];
 
     /**
@@ -90,7 +110,7 @@ class User extends Authenticatable
         if ($this->avatar) {
             return $this->avatar;
         }
-        
-        return 'https://ui-avatars.com/api/?name=' . urlencode($this->getDisplayName()) . '&color=7C3AED&background=EBF4FF';
+
+        return 'https://ui-avatars.com/api/?name='.urlencode($this->getDisplayName()).'&color=7C3AED&background=EBF4FF';
     }
 }

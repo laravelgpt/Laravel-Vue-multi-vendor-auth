@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use App\Services\PasswordBreachService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -36,9 +35,17 @@ class RegistrationPasswordBreachTest extends TestCase
     {
         $response = $this->post('/register', [
             'name' => 'Test User',
+            'username' => 'testuser',
             'email' => 'test@example.com',
             'password' => 'MyUniqueSecurePassword2024!@#',
             'password_confirmation' => 'MyUniqueSecurePassword2024!@#',
+            'first_name' => 'Test',
+            'last_name' => 'User',
+            'phone' => '1234567890',
+            'address_line_1' => '123 Test St',
+            'city' => 'Test City',
+            'country' => 'Test Country',
+            'terms' => true,
         ]);
 
         $response->assertRedirect('/dashboard');
@@ -169,7 +176,7 @@ class RegistrationPasswordBreachTest extends TestCase
     public function test_password_strength_api_endpoint_works_for_registration()
     {
         $response = $this->postJson('/api/password/check-strength', [
-            'password' => 'Aa@123123'
+            'password' => 'Aa@123123',
         ]);
 
         $response->assertStatus(200);
@@ -177,9 +184,9 @@ class RegistrationPasswordBreachTest extends TestCase
             'score',
             'strength',
             'breach_count',
-            'feedback'
+            'feedback',
         ]);
-        
+
         $data = $response->json();
         $this->assertGreaterThan(0, $data['breach_count']);
         $this->assertContains('This password has been found in data breaches', $data['feedback']);
