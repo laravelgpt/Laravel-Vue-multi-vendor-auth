@@ -22,16 +22,47 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users|regex:/^[a-zA-Z0-9_]+$/',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => ['required', 'string', 'confirmed', new SecurePassword()],
+            'password' => ['required', 'string', 'confirmed', new SecurePassword],
+            'first_name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:20',
+            'date_of_birth' => 'nullable|date|before:today',
+            'gender' => 'nullable|in:male,female,other,prefer_not_to_say',
+            'address_line_1' => 'nullable|string|max:255',
+            'address_line_2' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
+            'postal_code' => 'nullable|string|max:20',
+            'country' => 'nullable|string|max:255',
+            'company' => 'nullable|string|max:255',
+            'job_title' => 'nullable|string|max:255',
+            'bio' => 'nullable|string|max:500',
         ]);
 
         $user = User::create([
             'name' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'user',
             'is_active' => true,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'phone' => $request->phone,
+            'date_of_birth' => $request->date_of_birth,
+            'gender' => $request->gender,
+            'address_line_1' => $request->address_line_1,
+            'address_line_2' => $request->address_line_2,
+            'city' => $request->city,
+            'state' => $request->state,
+            'postal_code' => $request->postal_code,
+            'country' => $request->country,
+            'company' => $request->company,
+            'job_title' => $request->job_title,
+            'bio' => $request->bio,
+            'registration_ip' => $request->ip(),
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -41,9 +72,11 @@ class AuthController extends Controller
             'user' => [
                 'id' => $user->id,
                 'name' => $user->name,
+                'username' => $user->username,
                 'email' => $user->email,
                 'role' => $user->role,
                 'is_active' => $user->is_active,
+                'profile_completion' => $user->getProfileCompletionPercentage(),
                 'created_at' => $user->created_at,
             ],
             'token' => $token,
@@ -57,19 +90,24 @@ class AuthController extends Controller
     public function login(Request $request): JsonResponse
     {
         $request->validate([
-            'email' => 'required|string|email',
+            'login' => 'required|string', // Can be email or username
             'password' => 'required|string',
         ]);
 
-        if (!Auth::attempt($request->only('email', 'password'))) {
+        $loginField = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        if (! Auth::attempt([$loginField => $request->login, 'password' => $request->password])) {
             throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
+                'login' => ['The provided credentials are incorrect.'],
             ]);
         }
 
-        $user = User::where('email', $request->email)->firstOrFail();
+        $user = User::where($loginField, $request->login)->firstOrFail();
 
-        if (!$user->is_active) {
+        // Update last login information
+        $user->updateLastLogin($request->ip());
+
+        if (! $user->is_active) {
             return response()->json([
                 'message' => 'Account is deactivated',
             ], 403);
@@ -82,10 +120,13 @@ class AuthController extends Controller
             'user' => [
                 'id' => $user->id,
                 'name' => $user->name,
+                'username' => $user->username,
                 'email' => $user->email,
                 'role' => $user->role,
                 'is_active' => $user->is_active,
                 'avatar' => $user->getAvatarUrl(),
+                'profile_completion' => $user->getProfileCompletionPercentage(),
+                'last_login_at' => $user->last_login_at,
                 'created_at' => $user->created_at,
             ],
             'token' => $token,
@@ -116,6 +157,9 @@ class AuthController extends Controller
             'user' => [
                 'id' => $user->id,
                 'name' => $user->name,
+                'username' => $user->username,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
                 'email' => $user->email,
                 'role' => $user->role,
                 'is_active' => $user->is_active,
@@ -127,6 +171,38 @@ class AuthController extends Controller
                 'twitter' => $user->twitter,
                 'linkedin' => $user->linkedin,
                 'github' => $user->github,
+                'date_of_birth' => $user->date_of_birth,
+                'gender' => $user->gender,
+                'address_line_1' => $user->address_line_1,
+                'address_line_2' => $user->address_line_2,
+                'city' => $user->city,
+                'state' => $user->state,
+                'postal_code' => $user->postal_code,
+                'country' => $user->country,
+                'company' => $user->company,
+                'job_title' => $user->job_title,
+                'department' => $user->department,
+                'employee_id' => $user->employee_id,
+                'timezone' => $user->timezone,
+                'language' => $user->language,
+                'notification_preferences' => $user->notification_preferences,
+                'facebook' => $user->facebook,
+                'instagram' => $user->instagram,
+                'youtube' => $user->youtube,
+                'tiktok' => $user->tiktok,
+                'interests' => $user->interests,
+                'skills' => $user->skills,
+                'education' => $user->education,
+                'experience' => $user->experience,
+                'email_verified' => $user->email_verified,
+                'phone_verified' => $user->phone_verified,
+                'last_login_at' => $user->last_login_at,
+                'registration_ip' => $user->registration_ip,
+                'last_login_ip' => $user->last_login_ip,
+                'profile_completion' => $user->getProfileCompletionPercentage(),
+                'has_complete_profile' => $user->hasCompleteProfile(),
+                'full_name' => $user->getFullName(),
+                'full_address' => $user->getFullAddress(),
                 'email_verified_at' => $user->email_verified_at,
                 'created_at' => $user->created_at,
                 'updated_at' => $user->updated_at,
@@ -166,7 +242,7 @@ class AuthController extends Controller
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',
-            'password' => ['required', 'string', 'confirmed', new SecurePassword()],
+            'password' => ['required', 'string', 'confirmed', new SecurePassword],
         ]);
 
         $status = Password::reset(
@@ -196,10 +272,10 @@ class AuthController extends Controller
     public function refresh(Request $request): JsonResponse
     {
         $user = $request->user();
-        
+
         // Revoke current token
         $request->user()->currentAccessToken()->delete();
-        
+
         // Create new token
         $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -219,7 +295,7 @@ class AuthController extends Controller
 
         $request->validate([
             'name' => 'sometimes|string|max:255',
-            'email' => 'sometimes|string|email|max:255|unique:users,email,' . $user->id,
+            'email' => 'sometimes|string|email|max:255|unique:users,email,'.$user->id,
             'phone' => 'sometimes|nullable|string|max:20',
             'bio' => 'sometimes|nullable|string|max:500',
             'location' => 'sometimes|nullable|string|max:255',
@@ -230,8 +306,8 @@ class AuthController extends Controller
         ]);
 
         $user->update($request->only([
-            'name', 'email', 'phone', 'bio', 'location', 
-            'website', 'twitter', 'linkedin', 'github'
+            'name', 'email', 'phone', 'bio', 'location',
+            'website', 'twitter', 'linkedin', 'github',
         ]));
 
         return response()->json([
@@ -264,12 +340,12 @@ class AuthController extends Controller
     {
         $request->validate([
             'current_password' => 'required|string',
-            'password' => ['required', 'string', 'confirmed', new SecurePassword()],
+            'password' => ['required', 'string', 'confirmed', new SecurePassword],
         ]);
 
         $user = $request->user();
 
-        if (!Hash::check($request->current_password, $user->password)) {
+        if (! Hash::check($request->current_password, $user->password)) {
             return response()->json([
                 'message' => 'Current password is incorrect',
             ], 400);

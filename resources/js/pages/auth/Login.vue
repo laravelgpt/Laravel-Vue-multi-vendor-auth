@@ -12,7 +12,7 @@ const showPassword = ref(false);
 const activeTab = ref('password'); // 'password' or 'otp'
 
 const passwordForm = useForm({
-    email: '',
+    login: '', // Can be email or username
     password: '',
     remember: false,
 });
@@ -99,22 +99,22 @@ const switchToPassword = () => {
                 <div v-if="activeTab === 'password'" class="space-y-5 animate-fade-in">
                     <form @submit.prevent="submitPassword" class="space-y-5">
                         <div class="space-y-2">
-                            <Label for="email" class="text-slate-700 dark:text-slate-300 font-medium">Email</Label>
+                            <Label for="login" class="text-slate-700 dark:text-slate-300 font-medium">Email or Username</Label>
                             <div class="relative group">
                                 <Mail class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-purple-600 transition-colors" />
                                 <Input
-                                    id="email"
-                                    v-model="passwordForm.email"
-                                    type="email"
+                                    id="login"
+                                    v-model="passwordForm.login"
+                                    type="text"
                                     required
                                     autofocus
                                     autocomplete="username"
                                     class="pl-12 pr-4 py-3 border-2 border-slate-300 dark:border-slate-600 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/20 dark:bg-slate-800 dark:text-white rounded-xl transition-all duration-300"
-                                    placeholder="Enter your email"
+                                    placeholder="Enter your email or username"
                                 />
                             </div>
-                            <div v-if="passwordForm.errors.email" class="text-sm text-red-600 dark:text-red-400">
-                                {{ passwordForm.errors.email }}
+                            <div v-if="passwordForm.errors.login" class="text-sm text-red-600 dark:text-red-400">
+                                {{ passwordForm.errors.login }}
                             </div>
                         </div>
 

@@ -4,8 +4,8 @@ namespace Tests\Feature\Api;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use Laravel\Sanctum\Sanctum;
+use Tests\TestCase;
 
 class AuthApiTest extends TestCase
 {
@@ -15,6 +15,7 @@ class AuthApiTest extends TestCase
     {
         $userData = [
             'name' => 'Test User',
+            'username' => 'testuser',
             'email' => 'test@example.com',
             'password' => 'MySecurePassword123!',
             'password_confirmation' => 'MySecurePassword123!',
@@ -49,6 +50,7 @@ class AuthApiTest extends TestCase
     {
         $userData = [
             'name' => 'Test User',
+            'username' => 'testuser',
             'email' => 'test@example.com',
             'password' => 'weak',
             'password_confirmation' => 'weak',
@@ -64,6 +66,7 @@ class AuthApiTest extends TestCase
     {
         $userData = [
             'name' => 'Test User',
+            'username' => 'testuser',
             'email' => 'test@example.com',
             'password' => 'Aa@123123', // Known breached password
             'password_confirmation' => 'Aa@123123',
@@ -81,6 +84,7 @@ class AuthApiTest extends TestCase
 
         $userData = [
             'name' => 'Test User',
+            'username' => 'testuser',
             'email' => 'test@example.com',
             'password' => 'MySecurePassword123!',
             'password_confirmation' => 'MySecurePassword123!',
@@ -101,7 +105,7 @@ class AuthApiTest extends TestCase
         ]);
 
         $loginData = [
-            'email' => 'test@example.com',
+            'login' => 'test@example.com',
             'password' => 'MySecurePassword123!',
         ];
 
@@ -134,14 +138,14 @@ class AuthApiTest extends TestCase
         ]);
 
         $loginData = [
-            'email' => 'test@example.com',
+            'login' => 'test@example.com',
             'password' => 'wrongpassword',
         ];
 
         $response = $this->postJson('/api/login', $loginData);
 
         $response->assertStatus(422)
-            ->assertJsonValidationErrors(['email']);
+            ->assertJsonValidationErrors(['login']);
     }
 
     public function test_deactivated_user_cannot_login()
@@ -153,7 +157,7 @@ class AuthApiTest extends TestCase
         ]);
 
         $loginData = [
-            'email' => 'test@example.com',
+            'login' => 'test@example.com',
             'password' => 'MySecurePassword123!',
         ];
 
@@ -344,7 +348,7 @@ class AuthApiTest extends TestCase
     public function test_password_strength_api_works_for_registration()
     {
         $response = $this->postJson('/api/password/check-strength', [
-            'password' => 'Aa@123123'
+            'password' => 'Aa@123123',
         ]);
 
         $response->assertStatus(200)
@@ -352,9 +356,9 @@ class AuthApiTest extends TestCase
                 'score',
                 'strength',
                 'breach_count',
-                'feedback'
+                'feedback',
             ]);
-        
+
         $data = $response->json();
         $this->assertGreaterThan(0, $data['breach_count']);
         $this->assertContains('This password has been found in data breaches', $data['feedback']);
@@ -363,15 +367,15 @@ class AuthApiTest extends TestCase
     public function test_password_breach_api_works()
     {
         $response = $this->postJson('/api/password/check-breach', [
-            'password' => 'Aa@123123'
+            'password' => 'Aa@123123',
         ]);
 
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'compromised',
-                'breach_count'
+                'breach_count',
             ]);
-        
+
         $data = $response->json();
         $this->assertTrue($data['compromised']);
         $this->assertGreaterThan(0, $data['breach_count']);

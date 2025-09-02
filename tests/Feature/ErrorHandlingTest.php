@@ -167,9 +167,9 @@ test('different rate limits for different endpoints', function () {
         $this->post('/login', ['email' => 'test@example.com', 'password' => 'password']);
     }
 
-    $response = $this->post('/login', ['email' => 'test@example.com', 'password' => 'password']);
+    $response = $this->post('/login', ['login' => 'test@example.com', 'password' => 'password']);
     $response->assertStatus(302); // Login rate limiting redirects with validation errors
-    $response->assertSessionHasErrors('email');
+    $response->assertSessionHasErrors('login');
 
     // Clear rate limiters
     RateLimiter::clear('test@example.com|127.0.0.1');

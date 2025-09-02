@@ -14,7 +14,7 @@ test('users can authenticate using the login screen', function () {
     $user = User::factory()->create();
 
     $response = $this->post('/login', [
-        'email' => $user->email,
+        'login' => $user->email,
         'password' => 'password',
     ]);
 
@@ -26,13 +26,13 @@ test('users can not authenticate with invalid password', function () {
     $user = User::factory()->create();
 
     $response = $this->from('/login')->post('/login', [
-        'email' => $user->email,
+        'login' => $user->email,
         'password' => 'wrong-password',
     ]);
 
     // Failed login attempts redirect back with validation errors
     $response->assertStatus(302);
-    $response->assertSessionHasErrors('email');
+    $response->assertSessionHasErrors('login');
     $this->assertGuest();
 });
 
@@ -53,13 +53,13 @@ test('users are rate limited', function () {
 
     for ($i = 0; $i < 5; $i++) {
         $response = $this->from('/login')->post('/login', [
-            'email' => $user->email,
+            'login' => $user->email,
             'password' => 'wrong-password',
         ]);
 
         // Failed login attempts redirect back with validation errors
         $response->assertStatus(302);
-        $response->assertSessionHasErrors('email');
+        $response->assertSessionHasErrors('login');
     }
 
     // The 6th attempt should be rate limited by the authentication controller
@@ -70,7 +70,7 @@ test('users are rate limited', function () {
 
     // Rate limited login attempts redirect back with validation errors
     $response->assertStatus(302);
-    $response->assertSessionHasErrors('email');
+    $response->assertSessionHasErrors('login');
 });
 
 // Helper method to generate throttle key
