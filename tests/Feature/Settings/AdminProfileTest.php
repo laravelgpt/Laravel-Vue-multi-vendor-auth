@@ -16,7 +16,7 @@ test('admin profile page is displayed', function () {
 });
 
 test('non-admin users cannot access admin profile', function () {
-    $user = User::factory()->create(['role' => 'user']);
+    $user = User::factory()->create(['role' => 'customer']);
 
     $response = $this
         ->actingAs($user)

@@ -7,18 +7,17 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
-use Inertia\Inertia;
-use Inertia\Response;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    public function index(Request $request): Response
+    public function index(Request $request): View
     {
         $users = User::query()
             ->when($request->search, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('name', 'like', "%{$search}%")
-                      ->orWhere('email', 'like', "%{$search}%");
+                        ->orWhere('email', 'like', "%{$search}%");
                 });
             })
             ->when($request->role, function ($query, $role) {
@@ -31,15 +30,15 @@ class UserController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return Inertia::render('Admin/Users/Index', [
+        return view('admin.users.index', [
             'users' => $users,
             'filters' => $request->only(['search', 'role', 'status']),
         ]);
     }
 
-    public function edit(User $user): Response
+    public function edit(User $user): View
     {
-        return Inertia::render('Admin/Users/Edit', [
+        return view('admin.users.edit', [
             'user' => $user,
         ]);
     }
@@ -49,7 +48,7 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
-            'role' => ['required', Rule::in(['user', 'admin'])],
+            'role' => ['required', Rule::in(['admin', 'wholeseller', 'customer', 'technician'])],
             'phone' => 'nullable|string|max:20',
             'is_active' => 'boolean',
         ]);

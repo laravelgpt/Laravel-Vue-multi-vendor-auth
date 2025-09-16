@@ -28,20 +28,20 @@ class SocialLoginController extends Controller
 
         $user = User::where('email', $socialUser->getEmail())->first();
 
-        if (!$user) {
+        if (! $user) {
             // Create new user
             $user = User::create([
                 'name' => $socialUser->getName(),
                 'email' => $socialUser->getEmail(),
                 'password' => Hash::make(Str::random(16)),
                 'avatar' => $socialUser->getAvatar(),
-                'role' => 'user',
+                'role' => 'customer',
                 'is_active' => true,
                 'email_verified_at' => now(), // Social login users are pre-verified
             ]);
         } else {
             // Update existing user's avatar if they don't have one
-            if (!$user->avatar && $socialUser->getAvatar()) {
+            if (! $user->avatar && $socialUser->getAvatar()) {
                 $user->update(['avatar' => $socialUser->getAvatar()]);
             }
         }

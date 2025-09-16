@@ -13,11 +13,33 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Create test users for each role
+        User::factory()->admin()->create([
+            'name' => 'Test Admin',
+            'email' => 'admin@test.com',
+            'username' => 'testadmin',
+        ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        User::factory()->wholeseller()->create([
+            'name' => 'Test Wholeseller',
+            'email' => 'wholeseller@test.com',
+            'username' => 'testwholeseller',
+        ]);
+
+        User::factory()->customer()->create([
+            'name' => 'Test Customer',
+            'email' => 'customer@test.com',
+            'username' => 'testcustomer',
+        ]);
+
+        // Create additional random users
+        User::factory(10)->customer()->create();
+        User::factory(5)->wholeseller()->create();
+
+        $this->call([
+            AdminUserSeeder::class,
+            VendorSeeder::class,
+            TestDataSeeder::class,
         ]);
     }
 }

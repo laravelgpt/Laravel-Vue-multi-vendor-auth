@@ -5,74 +5,166 @@ use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
-use App\Http\Controllers\Auth\OtpLoginController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Livewire\Auth\Login;
+use App\Http\Livewire\Auth\OtpLogin;
+use App\Http\Livewire\Auth\Register;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('guest')->group(function () {
-    Route::get('register', [RegisteredUserController::class, 'create'])
-        ->name('register');
+/*
+|--------------------------------------------------------------------------
+| Authentication Routes
+|--------------------------------------------------------------------------
+|
+| Here are the authentication routes for the application. These routes
+| are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group.
+|
+*/
 
-    Route::post('register', [RegisteredUserController::class, 'store']);
+/*
+|--------------------------------------------------------------------------
+| Guest Routes (Unauthenticated Users)
+|--------------------------------------------------------------------------
+|
+| Routes accessible only to unauthenticated users
+|
+*/
+Route::middleware('guest')
+    ->group(function () {
 
-    Route::get('login', [AuthenticatedSessionController::class, 'create'])
-        ->name('login');
+        /*
+        |------------------------------------------------------------------
+        | Registration Routes
+        |------------------------------------------------------------------
+        */
+        Route::get('register', Register::class)
+            ->name('register');
 
-    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+        Route::post('register', [RegisteredUserController::class, 'store'])
+            ->middleware(['throttle:3,1', 'honeypot'])
+            ->name('register.store');
 
-    // OTP Login Routes
-    Route::get('login/otp', [OtpLoginController::class, 'show'])
-        ->name('login.otp');
+        /*
+        |------------------------------------------------------------------
+        | Login Routes
+        |------------------------------------------------------------------
+        */
+        Route::get('login', Login::class)
+            ->name('login');
 
-    Route::post('login/otp/send', [OtpLoginController::class, 'sendOtp'])
-        ->name('login.otp.send');
+        Route::post('login', [AuthenticatedSessionController::class, 'store'])
+            ->middleware(['throttle:5,1', 'honeypot'])
+            ->name('login.store');
 
-    Route::post('login/otp/verify', [OtpLoginController::class, 'verifyOtp'])
-        ->name('login.otp.verify');
+        /*
+        |------------------------------------------------------------------
+        | OTP Login Routes
+        |------------------------------------------------------------------
+        */
+        Route::get('login/otp', OtpLogin::class)
+            ->name('login.otp');
 
-    // Social Login Routes
-    Route::get('login/{provider}', [SocialLoginController::class, 'redirectToProvider'])
-        ->name('social.login')
-        ->where('provider', 'google|github|facebook');
+        /*
+        |------------------------------------------------------------------
+        | Social Login Routes
+        |------------------------------------------------------------------
+        */
+        Route::prefix('login')
+            ->middleware('throttle:10,1')
+            ->group(function () {
+                Route::get('{provider}', [SocialLoginController::class, 'redirectToProvider'])
+                    ->name('social.login')
+                    ->where('provider', 'google|github|facebook|apple');
 
-    Route::get('login/{provider}/callback', [SocialLoginController::class, 'handleProviderCallback'])
-        ->name('social.callback')
-        ->where('provider', 'google|github|facebook');
+                Route::get('{provider}/callback', [SocialLoginController::class, 'handleProviderCallback'])
+                    ->name('social.callback')
+                    ->where('provider', 'google|github|facebook|apple');
+            });
 
-    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
-        ->name('password.request');
+        /*
+        |------------------------------------------------------------------
+        | Password Reset Routes
+        |------------------------------------------------------------------
+        */
+        Route::prefix('forgot-password')
+            ->name('password.')
+            ->group(function () {
+                Route::get('/', [PasswordResetLinkController::class, 'create'])
+                    ->name('request');
 
-    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
-        ->name('password.email');
+                Route::post('/', [PasswordResetLinkController::class, 'store'])
+                    ->middleware(['throttle:3,1', 'honeypot'])
+                    ->name('email');
+            });
 
-    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
-        ->name('password.reset');
+        Route::prefix('reset-password')
+            ->name('password.')
+            ->group(function () {
+                Route::get('{token}', [NewPasswordController::class, 'create'])
+                    ->name('reset');
 
-    Route::post('reset-password', [NewPasswordController::class, 'store'])
-        ->name('password.store');
-});
+                Route::post('/', [NewPasswordController::class, 'store'])
+                    ->middleware(['throttle:3,1', 'honeypot'])
+                    ->name('store');
+            });
+    });
 
-Route::middleware('auth')->group(function () {
-    Route::get('verify-email', EmailVerificationPromptController::class)
-        ->name('verification.notice');
+/*
+|--------------------------------------------------------------------------
+| Authenticated Routes
+|--------------------------------------------------------------------------
+|
+| Routes accessible only to authenticated users
+|
+*/
+Route::middleware('auth')
+    ->group(function () {
 
-    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
-        ->middleware(['signed', 'throttle:6,1'])
-        ->name('verification.verify');
+        /*
+        |------------------------------------------------------------------
+        | Email Verification Routes
+        |------------------------------------------------------------------
+        */
+        Route::prefix('verify-email')
+            ->name('verification.')
+            ->group(function () {
+                Route::get('/', EmailVerificationPromptController::class)
+                    ->name('notice');
 
-    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-        ->middleware('throttle:6,1')
-        ->name('verification.send');
+                Route::get('{id}/{hash}', VerifyEmailController::class)
+                    ->middleware(['signed', 'throttle:3,1'])
+                    ->name('verify');
+            });
 
-    Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
-        ->name('password.confirm');
+        Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+            ->middleware(['throttle:3,1', 'honeypot'])
+            ->name('verification.send');
 
-    Route::post('confirm-password', [ConfirmablePasswordController::class, 'store'])
-        ->middleware('throttle:6,1');
+        /*
+        |------------------------------------------------------------------
+        | Password Confirmation Routes
+        |------------------------------------------------------------------
+        */
+        Route::prefix('confirm-password')
+            ->name('password.')
+            ->group(function () {
+                Route::get('/', [ConfirmablePasswordController::class, 'show'])
+                    ->name('confirm');
 
-    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-        ->name('logout');
-});
+                Route::post('/', [ConfirmablePasswordController::class, 'store'])
+                    ->middleware(['throttle:3,1', 'honeypot']);
+            });
+
+        /*
+        |------------------------------------------------------------------
+        | Logout Route
+        |------------------------------------------------------------------
+        */
+        Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
+            ->middleware('honeypot')
+            ->name('logout');
+    });

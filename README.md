@@ -1,13 +1,15 @@
-# Laravel Vue Admin Dashboard
+# Laravel Livewire Multi-Vendor Authentication System
 
-A modern, full-featured Laravel application with Vue.js frontend, featuring comprehensive admin dashboard, social authentication, OTP login, and beautiful UI design.
+A modern, full-featured Laravel application with Livewire frontend, featuring comprehensive admin dashboard, social authentication, OTP login, real-time password breach checking, and beautiful mobile-first responsive UI design.
 
 ## 🚀 **Features**
 
 ### **Authentication & Authorization**
-- ✅ **Multi-Provider Social Login**: Google, Facebook, GitHub, Apple
+- ✅ **Multi-Provider Social Login**: Google, Facebook, GitHub, Apple with fully rounded icons and hover tooltips
 - ✅ **OTP Authentication**: Email-based one-time password login/registration
 - ✅ **Traditional Authentication**: Email/password login and registration
+- ✅ **Real-Time Password Breach Checking**: Integration with HaveIBeenPwned API for instant security validation
+- ✅ **Password Strength Analysis**: Comprehensive password strength scoring with visual indicators
 - ✅ **Role-Based Access Control**: Admin and regular user roles
 - ✅ **Password Reset**: Secure password recovery system
 - ✅ **Email Verification**: Account verification system
@@ -28,20 +30,23 @@ A modern, full-featured Laravel application with Vue.js frontend, featuring comp
 - ✅ **Avatar Support**: Profile picture management
 
 ### **UI/UX Design**
-- ✅ **Modern Gradient Design**: Purple, navy, and blue color palette
-- ✅ **Glass Morphism**: Frosted glass effect components
-- ✅ **Dark/Light Mode**: Theme switching capability
-- ✅ **2D Animations**: Smooth transitions and micro-interactions
-- ✅ **Responsive Layout**: Mobile, tablet, and desktop optimized
-- ✅ **Accessibility**: WCAG compliant design
+- ✅ **Modern Gradient Design**: Purple, navy, and blue color palette with custom gradients
+- ✅ **Mobile-First Responsive Design**: Optimized for all screen sizes with responsive utilities
+- ✅ **Glass Morphism**: Frosted glass effect components with backdrop blur
+- ✅ **Dark/Light Mode**: Theme switching capability with smooth transitions
+- ✅ **2D Animations**: Smooth transitions, micro-interactions, and fade-in effects
+- ✅ **Real-Time Visual Feedback**: Instant password strength indicators and breach alerts
+- ✅ **Accessibility**: WCAG compliant design with proper ARIA labels
+- ✅ **Social Icons**: Fully rounded social login buttons with hover tooltips
 
 ### **Technical Stack**
-- ✅ **Laravel 12**: Latest Laravel framework
-- ✅ **Vue 3**: Composition API with TypeScript
-- ✅ **Inertia.js v2**: Modern SPA without API complexity
-- ✅ **Tailwind CSS v4**: Utility-first CSS framework
-- ✅ **Pest v4**: Modern PHP testing framework
-- ✅ **Laravel Socialite**: Social authentication
+- ✅ **Laravel 12**: Latest Laravel framework with streamlined structure
+- ✅ **Livewire 3**: Full-stack framework for dynamic interfaces
+- ✅ **Tailwind CSS v4**: Utility-first CSS framework with custom design system
+- ✅ **Pest v4**: Modern PHP testing framework with comprehensive test coverage
+- ✅ **Laravel Socialite**: Social authentication with multiple providers
+- ✅ **HaveIBeenPwned API**: Real-time password breach checking
+- ✅ **Alpine.js**: Lightweight JavaScript framework for interactions
 - ✅ **JWT Support**: Apple Sign-In integration
 
 ## 📋 **Requirements**
@@ -176,6 +181,22 @@ MAIL_FROM_ADDRESS="hello@example.com"
 MAIL_FROM_NAME="${APP_NAME}"
 ```
 
+### **Password Breach Checking Configuration**
+The application includes real-time password breach checking using the HaveIBeenPwned API. No additional configuration is required as the service uses the public API endpoint.
+
+#### **Features**
+- **Automatic Integration**: Works out of the box with no API keys required
+- **Intelligent Caching**: Reduces API calls with 1-hour cache TTL
+- **Error Handling**: Graceful fallback when API is unavailable
+- **Performance Optimized**: Uses k-anonymity for privacy protection
+
+#### **API Usage**
+The service uses the HaveIBeenPwned k-anonymity API:
+- **Endpoint**: `https://api.pwnedpasswords.com/range/{hashPrefix}`
+- **Method**: GET
+- **Rate Limiting**: Built-in rate limiting and caching
+- **Privacy**: Only first 5 characters of SHA-1 hash are sent
+
 ## 🧪 **Testing**
 
 ### **Run All Tests**
@@ -188,19 +209,58 @@ php artisan test
 # Authentication tests
 php artisan test tests/Feature/Auth/
 
+# Password breach checking tests
+php artisan test tests/Feature/PasswordBreachTest.php
+php artisan test tests/Feature/PasswordValidationTest.php
+php artisan test tests/Feature/RegisterPasswordBreachTest.php
+php artisan test tests/Feature/PasswordBreachIntegrationTest.php
+
 # Admin tests
 php artisan test tests/Feature/Settings/AdminProfileTest.php
 
 # Social login tests
 php artisan test tests/Feature/SocialLoginTest.php
+
+# All password-related tests
+php artisan test --filter="password|breach|register"
 ```
 
 ### **Test Coverage**
-- ✅ **Authentication**: Login, registration, password reset
+- ✅ **Authentication**: Login, registration, password reset with enhanced validation
+- ✅ **Password Breach Checking**: Real-time API integration and validation (38 tests, 127 assertions)
+- ✅ **Password Strength Analysis**: Comprehensive strength calculation and requirements (15 tests, 56 assertions)
+- ✅ **Registration Integration**: Livewire component testing with breach checking (13 tests, 39 assertions)
 - ✅ **Admin Features**: Dashboard, user management, profile updates
 - ✅ **Social Login**: All providers (Google, Facebook, GitHub, Apple)
 - ✅ **User Features**: Profile management, password updates
 - ✅ **Validation**: Form validation and error handling
+- ✅ **Mobile Responsiveness**: Cross-device compatibility testing
+
+## 🔒 **Password Security Features**
+
+### **Real-Time Password Breach Checking**
+- ✅ **HaveIBeenPwned Integration**: Direct API integration for instant breach detection
+- ✅ **Live Validation**: Real-time password checking as users type
+- ✅ **Breach Count Display**: Shows exact number of data breaches found
+- ✅ **Visual Alerts**: Clear red warnings for compromised passwords
+- ✅ **Secure Confirmation**: Green checkmarks for safe passwords
+- ✅ **Performance Optimized**: Intelligent caching reduces API calls
+- ✅ **Error Handling**: Graceful handling of API failures and timeouts
+
+### **Password Strength Analysis**
+- ✅ **Comprehensive Scoring**: 0-100 point scoring system with multiple levels
+- ✅ **Requirements Tracking**: Real-time checklist for password requirements
+- ✅ **Visual Indicators**: Color-coded progress bars and strength meters
+- ✅ **Smart Recommendations**: Contextual suggestions for password improvement
+- ✅ **Character Analysis**: Length, case, numbers, and special character validation
+- ✅ **Penalty System**: Deductions for repeated characters and common patterns
+
+### **User Experience**
+- ✅ **Instant Feedback**: Real-time updates as password is typed
+- ✅ **Mobile Optimized**: Responsive design works perfectly on all devices
+- ✅ **Accessibility**: Screen reader compatible with proper ARIA labels
+- ✅ **Smooth Animations**: Fade-in effects and smooth transitions
+- ✅ **Clear Messaging**: User-friendly error messages and recommendations
 
 ## 🛠️ **Security** 
 
@@ -208,6 +268,8 @@ php artisan test tests/Feature/SocialLoginTest.php
 - ✅ **Multi-Factor Authentication**: OTP-based email verification
 - ✅ **Social Authentication**: Secure OAuth 2.0 integration with major providers
 - ✅ **Password Security**: Bcrypt hashing with configurable rounds
+- ✅ **Real-Time Password Breach Detection**: Integration with HaveIBeenPwned API
+- ✅ **Password Strength Validation**: Comprehensive strength analysis with visual feedback
 - ✅ **Session Management**: Secure session handling with CSRF protection
 - ✅ **Role-Based Access Control**: Granular permissions system
 - ✅ **Account Lockout**: Rate limiting and brute force protection
@@ -271,7 +333,7 @@ php artisan test tests/Feature/SocialLoginTest.php
 ## 📁 **Project Structure**
 
 ```
-laravel-vue/
+laravel-livewire-multi-vendor-auth/
 ├── app/
 │   ├── Http/
 │   │   ├── Controllers/
@@ -281,33 +343,47 @@ laravel-vue/
 │   │   │   │   ├── SocialLoginController.php
 │   │   │   │   └── OtpLoginController.php
 │   │   │   └── ProfileController.php
+│   │   ├── Livewire/
+│   │   │   ├── Admin/
+│   │   │   │   └── Dashboard.php
+│   │   │   └── Auth/
+│   │   │       ├── Login.php
+│   │   │       ├── Register.php
+│   │   │       └── OtpLogin.php
 │   │   └── Requests/
-│   │       ├── PasswordUpdateRequest.php
+│   │       ├── Auth/
+│   │       │   └── PasswordUpdateRequest.php
 │   │       └── ProfileUpdateRequest.php
 │   ├── Models/
 │   │   ├── User.php
 │   │   └── OtpCode.php
+│   ├── Services/
+│   │   └── PasswordBreachService.php
 │   └── Console/Commands/
 │       └── GenerateAppleClientSecret.php
 ├── resources/
+│   ├── views/
+│   │   ├── livewire/
+│   │   │   ├── admin/
+│   │   │   │   └── dashboard.blade.php
+│   │   │   └── auth/
+│   │   │       ├── login.blade.php
+│   │   │       ├── register.blade.php
+│   │   │       └── otp-login.blade.php
+│   │   ├── layouts/
+│   │   │   ├── app.blade.php
+│   │   │   └── admin.blade.php
+│   │   └── components/
+│   │       └── admin-layout.blade.php
+│   └── css/
+│       ├── app.css
+│       ├── design-system.css
+│       └── modern-auth.css
+├── public/
+│   ├── css/
+│   │   └── modern-auth.css
 │   └── js/
-│       ├── components/
-│       │   ├── AdminSidebar.vue
-│       │   ├── SocialLoginButton.vue
-│       │   └── ui/
-│       ├── layouts/
-│       │   └── AdminLayout.vue
-│       └── pages/
-│           ├── Admin/
-│           │   ├── Dashboard.vue
-│           │   ├── Profile.vue
-│           │   └── Users.vue
-│           ├── auth/
-│           │   ├── Login.vue
-│           │   ├── Register.vue
-│           │   ├── ForgotPassword.vue
-│           │   └── ResetPassword.vue
-│           └── Profile.vue
+│       └── modern-auth.js
 ├── routes/
 │   ├── web.php
 │   └── auth.php
@@ -315,7 +391,10 @@ laravel-vue/
 │   └── Feature/
 │       ├── Auth/
 │       ├── Settings/
-│       └── SocialLoginTest.php
+│       ├── PasswordBreachTest.php
+│       ├── PasswordValidationTest.php
+│       ├── RegisterPasswordBreachTest.php
+│       └── PasswordBreachIntegrationTest.php
 └── config/
     └── services.php
 ```
