@@ -123,7 +123,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
-import { AlertTriangle, Bug, Activity, Server, Database, Wrench, ServerCrash, AlertCircle } from 'lucide-vue-next'
+import { Bug, Activity, Server, Database, Wrench, ServerCrash, AlertCircle } from 'lucide-vue-next'
 
 // Props from the controller
 interface Props {

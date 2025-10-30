@@ -1,9 +1,5 @@
 <script setup lang="ts">
-interface Props {
-    provider: 'google' | 'facebook' | 'github' | 'apple';
-}
-
-const props = defineProps<Props>();
+const { provider } = defineProps<{ provider: 'google' | 'facebook' | 'github' | 'apple' }>();
 
 const providerConfig = {
     google: {

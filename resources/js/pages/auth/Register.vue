@@ -33,10 +33,6 @@ const passwordsMatch = computed(() => {
            passwordForm.password === passwordForm.password_confirmation;
 });
 
-const isPasswordValid = computed(() => {
-    return passwordForm.password && passwordForm.password.length >= 8;
-});
-
 const canSubmit = computed(() => {
     return passwordForm.name && 
            passwordForm.email && 

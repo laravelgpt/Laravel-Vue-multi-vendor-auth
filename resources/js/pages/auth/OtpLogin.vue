@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import InputError from '@/components/InputError.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,10 +6,10 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { home, login } from '@/routes';
 import { Head } from '@inertiajs/vue3';
-import { Mail, ArrowLeft, Shield } from 'lucide-vue-next';
+import { ArrowLeft, Shield } from 'lucide-vue-next';
 import { ref, onMounted } from 'vue';
 
-const props = defineProps<{
+const { status, email } = defineProps<{
     status?: string;
     email?: string;
 }>();
@@ -124,8 +123,8 @@ const getOtpString = () => {
                                         inputmode="numeric"
                                         pattern="[0-9]*"
                                         class="w-12 h-12 text-center text-lg font-semibold"
-                                        @input="(e) => handleOtpInput(index, (e.target as HTMLInputElement).value)"
-                                        @keydown="(e) => handleKeydown(index, e)"
+                                        @input="(e: Event) => handleOtpInput(index, (e.target as HTMLInputElement).value)"
+                                        @keydown="(e: KeyboardEvent) => handleKeydown(index, e)"
                                     />
                                 </div>
                             </div>
