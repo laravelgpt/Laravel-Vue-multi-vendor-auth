@@ -1,40 +1,40 @@
-﻿# Laravel Vue Admin Dashboard
+﻿# Mobile Repair Shop Management System
 
-A modern, full-featured Laravel application with Vue.js frontend, featuring comprehensive admin dashboard, social authentication, OTP login, and beautiful UI design.
+A comprehensive Laravel application designed specifically for managing mobile phone repair shops with inventory tracking, repair booking, customer management, and business analytics.
 
 ## 🚀 **Features**
 
 ### **Latest Updates (v2.1.0)**
-- 🆕 **Multi-Step Registration Form**: 6-step Vue.js registration with comprehensive user profile collection
-- 🆕 **Extended User Fields**: Address, professional information, preferences, and more
-- 🆕 **Enhanced Testing**: 155 tests with 666 assertions, 100% test coverage
-- 🆕 **Improved Security**: Advanced security middleware with comprehensive rate limiting
-- 🆕 **Modern UI Components**: Password strength meter, progress tracking, and responsive design
+- 🆕 **Mobile Repair Management**: Complete repair booking and tracking system
+- 🆕 **Device Model Management**: Comprehensive device model catalog with specifications
+- 🆕 **Support Ticket System**: Customer support and issue tracking
+- 🆕 **Inventory Management**: Product and parts inventory tracking
+- 🆕 **POS System**: Point of sale functionality for retail transactions
 
-### **Authentication & Authorization**
-- ✅ **Multi-Provider Social Login**: Google, Facebook, GitHub, Apple
-- ✅ **OTP Authentication**: Email-based one-time password login/registration
-- ✅ **Traditional Authentication**: Email/password login and registration
-- ✅ **Extended Registration Form**: Multi-step registration with comprehensive user profile
-- ✅ **Role-Based Access Control**: Admin and regular user roles
+### **User Management & Authorization**
+- ✅ **Multi-User Support**: Admin, Technician, Manager, and Customer roles
+- ✅ **Role-Based Access Control**: Granular permissions for different user types
+- ✅ **Customer Management**: Complete customer profile and history tracking
+- ✅ **Technician Management**: Technician scheduling and performance tracking
+- ✅ **Staff Management**: Employee access and role management
 - ✅ **Password Reset**: Secure password recovery system
 - ✅ **Email Verification**: Account verification system
 
-### **Admin Dashboard**
-- ✅ **Comprehensive Admin Panel**: Full-featured administration interface
-- ✅ **User Management**: View, manage, and control user accounts
-- ✅ **Profile Management**: Admin profile settings and updates
+### **Repair Management Dashboard**
+- ✅ **Comprehensive Repair Tracking**: Complete repair booking and status management
+- ✅ **Customer Management**: View, manage, and track customer information and repair history
+- ✅ **Technician Scheduling**: Assign and manage technician workloads
 - ✅ **Responsive Design**: Mobile-first responsive layout
-- ✅ **Real-time Notifications**: Live notification system
-- ✅ **Search Functionality**: Global search across admin panel
+- ✅ **Real-time Notifications**: Live repair status and business notifications
+- ✅ **Search Functionality**: Global search across repair records and customers
 
-### **User Features**
-- ✅ **Profile Management**: Complete user profile customization
-- ✅ **Extended User Profiles**: Comprehensive user information including address, professional details, and preferences
-- ✅ **Password Updates**: Secure password change functionality
-- ✅ **Account Deletion**: Safe account removal with confirmation
-- ✅ **Social Links**: Connect social media accounts
-- ✅ **Avatar Support**: Profile picture management
+### **Repair Features**
+- ✅ **Repair Booking System**: Complete repair request and scheduling system
+- ✅ **Device Management**: Track device models, specifications, and repair history
+- ✅ **Repair Status Tracking**: Real-time repair progress and status updates
+- ✅ **Payment Processing**: Integrated payment system for repair services
+- ✅ **Inventory Management**: Track parts and supplies for repairs
+- ✅ **Customer Communication**: Notification system for repair updates
 
 ### **UI/UX Design**
 - ✅ **Modern Gradient Design**: Purple, navy, and blue color palette
@@ -50,8 +50,8 @@ A modern, full-featured Laravel application with Vue.js frontend, featuring comp
 - ✅ **Inertia.js v2**: Modern SPA without API complexity
 - ✅ **Tailwind CSS v4**: Utility-first CSS framework
 - ✅ **Pest v4**: Modern PHP testing framework
-- ✅ **Laravel Socialite**: Social authentication
-- ✅ **JWT Support**: Apple Sign-In integration
+- ✅ **Database Management**: MySQL/PostgreSQL with Eloquent ORM
+- ✅ **API Integration**: RESTful API for mobile and web interfaces
 - ✅ **Comprehensive Testing**: 155 tests with 666 assertions, 100% coverage
 
 ## 📋 **Requirements**
@@ -67,8 +67,8 @@ A modern, full-featured Laravel application with Vue.js frontend, featuring comp
 
 ### **1. Clone the Repository**
 ```bash
-git clone https://github.com/laravelgpt/Laravel-Vue-multi-vendor-auth.git
-cd laravel-vue
+git clone https://github.com/laravelgpt/mobile-repair-shop.git
+cd mobile-repair-shop
 ```
 
 ### **2. Install Dependencies**
@@ -301,68 +301,79 @@ php artisan test --filter="Registration"
 ## 📁 **Project Structure**
 
 ```
-laravel-vue/
+mobile-repair-shop/
 ├── app/
 │   ├── Http/
 │   │   ├── Controllers/
 │   │   │   ├── Admin/
 │   │   │   │   └── ProfileController.php
-│   │   │   ├── Auth/
-│   │   │   │   ├── SocialLoginController.php
-│   │   │   │   ├── OtpLoginController.php
-│   │   │   │   └── RegisteredUserController.php
-│   │   │   └── ProfileController.php
+│   │   │   ├── Repair/
+│   │   │   │   ├── RepairController.php
+│   │   │   │   ├── DeviceModelController.php
+│   │   │   │   └── SupportTicketController.php
+│   │   │   ├── Inventory/
+│   │   │   │   ├── ProductController.php
+│   │   │   │   └── CategoryController.php
+│   │   │   ├── PosController.php
+│   │   │   └── ShopController.php
 │   │   ├── Middleware/
 │   │   │   └── SecurityMiddleware.php
 │   │   └── Requests/
 │   │       ├── PasswordUpdateRequest.php
 │   │       ├── ProfileUpdateRequest.php
-│   │       └── Auth/
-│   │           └── LoginRequest.php
+│   │       └── Repair/
+│   │           └── RepairRequest.php
 │   ├── Models/
 │   │   ├── User.php
-│   │   └── OtpCode.php
-│   └── Console/Commands/
-│       └── GenerateAppleClientSecret.php
+│   │   ├── RepairBooking.php
+│   │   ├── DeviceModel.php
+│   │   ├── Product.php
+│   │   ├── Category.php
+│   │   ├── Order.php
+│   │   ├── OrderItem.php
+│   │   └── SupportTicket.php
 ├── resources/
 │   └── js/
 │       ├── components/
-│       │   ├── AdminSidebar.vue
-│       │   ├── SocialLoginButton.vue
-│       │   ├── PasswordStrengthMeter.vue
-│       │   ├── RegistrationProgress.vue
-│       │   ├── TextLink.vue
+│       │   ├── RepairForm.vue
+│       │   ├── DeviceSelector.vue
+│       │   ├── CustomerInfo.vue
+│       │   ├── RepairStatus.vue
 │       │   └── ui/
 │       ├── layouts/
 │       │   └── AdminLayout.vue
 │       └── pages/
 │           ├── Admin/
 │           │   ├── Dashboard.vue
-│           │   ├── Profile.vue
-│           │   └── Users.vue
-│           ├── auth/
-│           │   ├── Login.vue
-│           │   ├── Register.vue
-│           │   ├── ForgotPassword.vue
-│           │   └── ResetPassword.vue
+│           │   ├── Repairs.vue
+│           │   ├── Customers.vue
+│           │   └── Inventory.vue
+│           ├── Repair/
+│           │   ├── Create.vue
+│           │   ├── List.vue
+│           │   └── Detail.vue
 │           └── Profile.vue
 ├── routes/
 │   ├── web.php
-│   └── auth.php
+│   └── api.php
 ├── tests/
 │   └── Feature/
-│       ├── Auth/
-│       │   ├── RegistrationTest.php
-│       │   ├── VueRegistrationFormTest.php
-│       │   └── AuthenticationTest.php
-│       ├── Settings/
-│       └── SocialLoginTest.php
+│       ├── Repair/
+│       │   ├── RepairTest.php
+│       │   └── DeviceModelTest.php
+│       └── PosTest.php
 ├── database/
 │   └── migrations/
 │       ├── 0001_01_01_000000_create_users_table.php
-│       ├── 2024_01_01_000004_add_role_fields_to_users_table.php
-│       ├── 2025_08_26_023833_add_profile_fields_to_users_table.php
-│       └── 2025_09_02_004026_add_extended_registration_fields_to_users_table.php
+│       ├── 2025_11_19_182226_create_categories_table.php
+│       ├── 2025_11_19_182249_create_brands_table.php
+│       ├── 2025_11_19_182252_create_suppliers_table.php
+│       ├── 2025_11_19_182259_create_products_table.php
+│       ├── 2025_11_19_182807_create_device_models_table.php
+│       ├── 2025_11_19_182813_create_ticket_statuses_table.php
+│       ├── 2025_11_19_182819_create_tickets_table.php
+│       ├── 2025_11_19_182827_create_orders_table.php
+│       └── 2025_11_19_182831_create_order_items_table.php
 └── config/
     └── services.php
 ```
@@ -407,10 +418,11 @@ php artisan route:clear
 7. Run database migrations: `php artisan migrate --force`
 
 ### **Database Migration**
-The application includes comprehensive database migrations for extended user profiles:
-- Base users table with authentication fields
-- Role and profile fields
-- Extended registration fields (address, professional info, preferences)
+The application includes comprehensive database migrations for mobile repair management:
+- Base users table with role-based access
+- Device models and specifications
+- Repair booking and status tracking
+- Customer and inventory management
 - All migrations are safe and can be run multiple times
 
 ### **Environment Variables**
@@ -454,13 +466,13 @@ For support and questions:
 
 ## 🎯 **Roadmap**
 
-- [x] **Extended User Registration**: Multi-step form with comprehensive profile collection
-- [x] **Comprehensive Testing**: 155 tests with 100% coverage
-- [x] **Enhanced Security**: Advanced security middleware and rate limiting
-- [ ] Real-time notifications with WebSockets
-- [ ] Advanced user analytics dashboard
+- [x] **Mobile Repair Management**: Complete repair booking and tracking system
+- [x] **Device Model Management**: Comprehensive device model catalog
+- [x] **Support Ticket System**: Customer support and issue tracking
+- [ ] Real-time repair notifications with WebSockets
+- [ ] Advanced repair analytics dashboard
 - [ ] Multi-language support
-- [ ] Advanced role permissions system
+- [ ] Advanced technician scheduling system
 - [ ] API documentation with OpenAPI
 - [ ] Docker containerization
 - [ ] CI/CD pipeline setup
